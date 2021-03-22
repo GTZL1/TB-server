@@ -1,0 +1,15 @@
+[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/akka/akka-testkit_2.13/2.6.10/akka-testkit_2.13-2.6.10.pom
+[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/akka/akka-http_2.13/10.1.13/akka-http_2.13-10.1.13.pom
+[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/akka/akka-http-jackson_2.13/10.1.13/akka-http-jackson_2.13-10.1.13.pom
+[debug] downloaded https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.10.2/jackson-databind-2.10.2.pom
+[debug] downloaded https://repo1.maven.org/maven2/com/fasterxml/jackson/jackson-base/2.10.2/jackson-base-2.10.2.pom
+[debug] downloaded https://repo1.maven.org/maven2/com/fasterxml/jackson/jackson-bom/2.10.2/jackson-bom-2.10.2.pom
+[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/akka/akka-testkit_2.13/2.6.10/akka-testkit_2.13-2.6.10.jar
+[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/akka/akka-http-jackson_2.13/10.1.13/akka-http-jackson_2.13-10.1.13.jar
+[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/akka/akka-http_2.13/10.1.13/akka-http_2.13-10.1.13.jar
+[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/akka/akka-testkit_2.13/2.6.10/akka-testkit_2.13-2.6.10-sources.jar
+[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/akka/akka-http-jackson_2.13/10.1.13/akka-http-jackson_2.13-10.1.13-sources.jar
+[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/akka/akka-http_2.13/10.1.13/akka-http_2.13-10.1.13-sources.jar
+[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/akka/akka-http-jackson_2.13/10.1.13/akka-http-jackson_2.13-10.1.13-javadoc.jar
+[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/akka/akka-testkit_2.13/2.6.10/akka-testkit_2.13-2.6.10-javadoc.jar
+[debug] downloaded https://repo1.maven.org/maven2/com/typesafe/akka/akka-http_2.13/10.1.13/akka-http_2.13-10.1.13-javadoc.jar

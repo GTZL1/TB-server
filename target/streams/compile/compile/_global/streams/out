@@ -1,0 +1,26 @@
+[warn] C:\Users\David Dupraz\Documents\HEIG\TB\Poc\play-samples\app\views\commonSidebar.scala.html:5:39: Auto-application to `()` is deprecated. Supply the empty argument list `()` explicitly to invoke method index,
+[warn] or remove the empty argument list from its definition (Java-defined methods are exempt).
+[warn] In Scala 3, an unapplied method like this will be eta-expanded into a function.
+[warn]   <li><a href="@routes.HomeController.index#Introduction">Welcome</a>
+[warn]                                       ^
+[warn] C:\Users\David Dupraz\Documents\HEIG\TB\Poc\play-samples\app\views\commonSidebar.scala.html:6:39: Auto-application to `()` is deprecated. Supply the empty argument list `()` explicitly to invoke method explore,
+[warn] or remove the empty argument list from its definition (Java-defined methods are exempt).
+[warn] In Scala 3, an unapplied method like this will be eta-expanded into a function.
+[warn]   <li><a href="@routes.HomeController.explore">Play application overview</a>
+[warn]                                       ^
+[warn] C:\Users\David Dupraz\Documents\HEIG\TB\Poc\play-samples\app\views\commonSidebar.scala.html:7:39: Auto-application to `()` is deprecated. Supply the empty argument list `()` explicitly to invoke method tutorial,
+[warn] or remove the empty argument list from its definition (Java-defined methods are exempt).
+[warn] In Scala 3, an unapplied method like this will be eta-expanded into a function.
+[warn]   <li><a href="@routes.HomeController.tutorial">Implementing Hello World</a>
+[warn]                                       ^
+[warn] C:\Users\David Dupraz\Documents\HEIG\TB\Poc\play-samples\app\views\explore.scala.html:80:107: Auto-application to `()` is deprecated. Supply the empty argument list `()` explicitly to invoke method tutorial,
+[warn] or remove the empty argument list from its definition (Java-defined methods are exempt).
+[warn] In Scala 3, an unapplied method like this will be eta-expanded into a function.
+[warn]       <p>With this overview of the tutorial application, you are ready to <a href="@routes.HomeController.tutorial">add
+[warn]                                                                                                           ^
+[warn] C:\Users\David Dupraz\Documents\HEIG\TB\Poc\play-samples\app\views\index.scala.html:66:53: Auto-application to `()` is deprecated. Supply the empty argument list `()` explicitly to invoke method explore,
+[warn] or remove the empty argument list from its definition (Java-defined methods are exempt).
+[warn] In Scala 3, an unapplied method like this will be eta-expanded into a function.
+[warn]       <p>Now, let's <a href="@routes.HomeController.explore">explore the tutorial Play application</a>.</p>
+[warn]                                                     ^
+[warn] 5 warnings found
