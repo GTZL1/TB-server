@@ -15,5 +15,5 @@ libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % akkaVersion
 libraryDependencies += "com.typesafe.akka" %% "akka-stream" % akkaVersion
 libraryDependencies += "com.typesafe.akka" %% "akka-http-jackson" % akkaHttpVersion
 libraryDependencies += "com.typesafe.akka" %% "akka-http" % akkaHttpVersion
-libraryDependencies ++= Seq(javaJdbc)
+libraryDependencies ++= Seq(javaJdbc, javaWs)
 libraryDependencies += "org.postgresql" % "postgresql" % "42.2.19"
