@@ -13,7 +13,7 @@
         <entry key="root">
           <value>
             <ProjectSettingsEntry>
-              <option name="sourceDir" value="C:\Users\David Dupraz\Documents\HEIG\TB\Poc\play-samples\app" />
+              <option name="sourceDir" value="C:\Users\David Dupraz\Documents\HEIG\TB\TB-server\app" />
               <option name="confDir" value="C:\Users\David Dupraz\Documents\HEIG\TB\TB-server\app" />
               <option name="templateImports">
                 <list>

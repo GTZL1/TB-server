@@ -1,6 +1,6 @@
 // @GENERATOR:play-routes-compiler
 // @SOURCE:C:/Users/David Dupraz/Documents/HEIG/TB/TB-server/conf/routes
-// @DATE:Mon Mar 22 20:40:23 CET 2021
+// @DATE:Sun Mar 28 16:41:34 CEST 2021
 
 
 package router {
