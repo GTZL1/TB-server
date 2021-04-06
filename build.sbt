@@ -18,3 +18,5 @@ libraryDependencies += "com.typesafe.akka" %% "akka-http" % akkaHttpVersion
 libraryDependencies ++= Seq(javaJdbc, javaWs, javaJpa, evolutions,
   "org.hibernate" % "hibernate-core" % "5.4.27.Final")
 libraryDependencies += "org.postgresql" % "postgresql" % "42.2.19"
+
+PlayKeys.externalizeResourcesExcludes += baseDirectory.value / "conf" / "META-INF" / "persistence.xml"
