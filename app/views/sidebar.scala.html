@@ -1,0 +1,9 @@
+@()
+@defining(play.core.PlayVersion.current) { version =>
+<h3>Site Contents</h3>
+<ul>
+  <li><a href="@routes.HomeController.index">Home</a>
+  <li><a href="@routes.HomeController.rules">Rules</a>
+  <li><a href="@routes.HomeController.newAccount">Create your account</a>
+</ul>
+}

@@ -1,6 +1,6 @@
 // @GENERATOR:play-routes-compiler
 // @SOURCE:C:/Users/David Dupraz/Documents/HEIG/TB/TB-server/conf/routes
-// @DATE:Sun Mar 28 16:41:34 CEST 2021
+// @DATE:Tue Apr 06 17:16:53 CEST 2021
 
 import play.api.mvc.Call
 
@@ -30,6 +30,18 @@ package controllers {
       Call("GET", _prefix + { _defaultPrefix } + "hello")
     }
   
+    // @LINE:12
+    def newAccount(): Call = {
+      
+      Call("GET", _prefix + { _defaultPrefix } + "newAccount")
+    }
+  
+    // @LINE:11
+    def rules(): Call = {
+      
+      Call("GET", _prefix + { _defaultPrefix } + "rules")
+    }
+  
     // @LINE:10
     def socket(): Call = {
       
@@ -50,14 +62,14 @@ package controllers {
   
   }
 
-  // @LINE:13
+  // @LINE:15
   class ReverseAssets(_prefix: => String) {
     def _defaultPrefix: String = {
       if (_prefix.endsWith("/")) "" else "/"
     }
 
   
-    // @LINE:13
+    // @LINE:15
     def versioned(file:Asset): Call = {
       implicit lazy val _rrc = new play.core.routing.ReverseRouteContext(Map(("path", "/public"))); _rrc
       Call("GET", _prefix + { _defaultPrefix } + "assets/" + implicitly[play.api.mvc.PathBindable[Asset]].unbind("file", file))
