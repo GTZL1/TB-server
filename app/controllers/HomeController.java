@@ -31,7 +31,7 @@ public class HomeController extends Controller {
    * <code>GET</code> request with a path of <code>/</code>.
    */
   public Result index() {
-    return ok(views.html.index.render());
+    return ok(views.html.home.render());
   }
 
   public Result explore() {
@@ -45,6 +45,10 @@ public class HomeController extends Controller {
   public Result hello() {
     return ok(views.html.hello.render());
   }
+
+  public Result rules(){ return ok(views.html.rules.render());}
+
+  public Result newAccount(){ return ok(views.html.newAccount.render());}
 }
 
 class MyWebSocketActor extends AbstractActor {

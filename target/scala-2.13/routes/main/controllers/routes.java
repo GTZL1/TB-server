@@ -1,6 +1,6 @@
 // @GENERATOR:play-routes-compiler
 // @SOURCE:C:/Users/David Dupraz/Documents/HEIG/TB/TB-server/conf/routes
-// @DATE:Sun Mar 28 16:41:34 CEST 2021
+// @DATE:Tue Apr 06 17:16:53 CEST 2021
 
 package controllers;
 
