@@ -43,7 +43,6 @@ public class HomeController extends Controller {
   }
 
   public Result hello() {
-    System.out.println("Yeah");
     return ok(views.html.hello.render());
   }
 }
