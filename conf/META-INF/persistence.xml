@@ -1,0 +1,18 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+  version="2.1">
+
+  <persistence-unit name="defaultPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <non-jta-data-source>DefaultDS</non-jta-data-source>
+    <properties>
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> <!-- DB Driver -->
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://192.168.99.102:5432/" /> <!-- BD Mane -->
+      <property name="javax.persistence.jdbc.user" value="root" /> <!-- DB User -->
+      <property name="javax.persistence.jdbc.password" value="123456" /> <!-- DB Password -->
+      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
+    </properties>
+  </persistence-unit>
+
+</persistence>
