@@ -34,18 +34,6 @@ public class HomeController extends Controller {
     return ok(views.html.home.render());
   }
 
-  public Result explore() {
-    return ok(views.html.explore.render());
-  }
-
-  public Result tutorial() {
-    return ok(views.html.tutorial.render());
-  }
-
-  public Result hello() {
-    return ok(views.html.hello.render());
-  }
-
   public Result rules(){ return ok(views.html.rules.render());}
 
   public Result newAccount(){ return ok(views.html.newAccount.render());}
