@@ -1,10 +1,17 @@
 package controllers;
 
-import akka.actor.*;
-import akka.stream.*;
+import akka.actor.AbstractActor;
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+import akka.actor.Props;
+import akka.stream.Materializer;
 import javax.inject.Inject;
+import play.data.Form;
+import play.data.FormFactory;
+import play.i18n.*;
 import play.libs.streams.ActorFlow;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.WebSocket;
 
@@ -12,11 +19,16 @@ public class HomeController extends Controller {
 
   private final ActorSystem actorSystem;
   private final Materializer materializer;
+  private final FormFactory formFactory;
+  private final MessagesApi messagesApi;
 
   @Inject
-  public HomeController(ActorSystem actorSystem, Materializer materializer) {
+  public HomeController(ActorSystem actorSystem, Materializer materializer,
+      FormFactory formFactory, MessagesApi messagesApi) {
     this.actorSystem = actorSystem;
     this.materializer = materializer;
+    this.formFactory = formFactory;
+    this.messagesApi = messagesApi;
   }
 
   public WebSocket socket() {
@@ -34,9 +46,15 @@ public class HomeController extends Controller {
     return ok(views.html.home.render());
   }
 
-  public Result rules(){ return ok(views.html.rules.render());}
+  public Result rules() {
+    return ok(views.html.rules.render());
+  }
 
-  public Result newAccount(){ return ok(views.html.newAccount.render());}
+  public Result newAccount(Http.Request request) {
+    Form<PlayerForm> playerForm = formFactory.form(PlayerForm.class);
+    Messages messages = messagesApi.preferred(request);
+    return ok(views.html.newAccount.render(playerForm,messages));
+  }
 }
 
 class MyWebSocketActor extends AbstractActor {

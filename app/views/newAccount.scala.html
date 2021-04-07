@@ -1,9 +1,11 @@
+@(playerForm: Form[PlayerForm])(implicit messages: play.i18n.Messages)
+
 @title("Sign in") {
   <section id="content">
     <div class="wrapper doc">
       <article>
         <h1>Create your account</h1>
-        <form>
+          <!--<form>
           <label for="fname">Pseudo:</label><br>
           <input type="text" id="fname" name="fname"><br>
           <label for="pwd0">Password:</label><br>
@@ -11,7 +13,14 @@
           <label for="pwd1">Repeat password:</label><br>
           <input type="text" id="pwd1" name="pwd1"><br>
           <input type="submit" value="Create account">
-        </form>
+        </form>-->
+        @helper.form(action = routes.Application.newPlayer()) {
+          @helper.inputText(playerForm("username"))
+          @helper.inputText(playerForm("password1"))
+          @helper.inputText(playerForm("password2"))
+
+          <input type="submit">
+        }
       </article>
       <aside>
       @sidebar()
