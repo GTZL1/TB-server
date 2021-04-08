@@ -19,16 +19,11 @@ public class HomeController extends Controller {
 
   private final ActorSystem actorSystem;
   private final Materializer materializer;
-  private final FormFactory formFactory;
-  private final MessagesApi messagesApi;
 
   @Inject
-  public HomeController(ActorSystem actorSystem, Materializer materializer,
-      FormFactory formFactory, MessagesApi messagesApi) {
+  public HomeController(ActorSystem actorSystem, Materializer materializer) {
     this.actorSystem = actorSystem;
     this.materializer = materializer;
-    this.formFactory = formFactory;
-    this.messagesApi = messagesApi;
   }
 
   public WebSocket socket() {
@@ -48,12 +43,6 @@ public class HomeController extends Controller {
 
   public Result rules() {
     return ok(views.html.rules.render());
-  }
-
-  public Result newAccount(Http.Request request) {
-    Form<PlayerForm> playerForm = formFactory.form(PlayerForm.class);
-    Messages messages = messagesApi.preferred(request);
-    return ok(views.html.newAccount.render(playerForm,messages));
   }
 }
 

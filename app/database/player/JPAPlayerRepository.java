@@ -31,4 +31,8 @@ public class JPAPlayerRepository implements PlayerRepository{
         jpaApi.withTransaction(entityManager -> entityManager.)
         );
   }*/
+
+  public void test(){
+    System.out.println("It works !");
+  }
 }
