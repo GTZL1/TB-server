@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Table(name = "player")
 public class Player {
   @Id
-  @GeneratedValue(strategy=GenerationType.AUTO)
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Column(name="id_player")
   private Long idPlayer;
 
@@ -31,5 +31,13 @@ public class Player {
 
   public String getPasswordHash(){
     return this.passwordHash;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public void setPasswordHash(String passwordHash) {
+    this.passwordHash = passwordHash;
   }
 }

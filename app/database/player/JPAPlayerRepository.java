@@ -3,6 +3,9 @@ package database.player;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import database.DatabaseExecutionContext;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import javax.inject.Inject;
 import play.db.jpa.JPAApi;
@@ -26,13 +29,11 @@ public class JPAPlayerRepository implements PlayerRepository{
     })), executionContext);
   }
 
-  /*public CompletionStage<Optional<Player>> getPlayer(String username){
-    return supplyAsync(() ->
-        jpaApi.withTransaction(entityManager -> entityManager.)
-        );
-  }*/
-
-  public void test(){
-    System.out.println("It works !");
+  public CompletableFuture<Optional<Player>> getPlayer(String username){
+    return CompletableFuture.supplyAsync(() ->
+       jpaApi.withTransaction(entityManager -> {
+          List players= entityManager.createNativeQuery("select * from player where player.username=\'"+username+"\'", Player.class).getResultList();
+          return players.stream().findFirst();
+        }), executionContext);
   }
 }

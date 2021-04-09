@@ -184,5 +184,14 @@
     <orderEntry type="library" scope="TEST" name="sbt: xalan:xalan:2.7.2:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: xerces:xercesImpl:2.12.0:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: xml-apis:xml-apis:1.4.01:jar" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.18/lombok-1.18.18.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
