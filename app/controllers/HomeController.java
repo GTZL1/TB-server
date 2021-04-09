@@ -1,10 +1,17 @@
 package controllers;
 
-import akka.actor.*;
-import akka.stream.*;
+import akka.actor.AbstractActor;
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+import akka.actor.Props;
+import akka.stream.Materializer;
 import javax.inject.Inject;
+import play.data.Form;
+import play.data.FormFactory;
+import play.i18n.*;
 import play.libs.streams.ActorFlow;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.WebSocket;
 
@@ -34,21 +41,9 @@ public class HomeController extends Controller {
     return ok(views.html.home.render());
   }
 
-  public Result explore() {
-    return ok(views.html.explore.render());
+  public Result rules() {
+    return ok(views.html.rules.render());
   }
-
-  public Result tutorial() {
-    return ok(views.html.tutorial.render());
-  }
-
-  public Result hello() {
-    return ok(views.html.hello.render());
-  }
-
-  public Result rules(){ return ok(views.html.rules.render());}
-
-  public Result newAccount(){ return ok(views.html.newAccount.render());}
 }
 
 class MyWebSocketActor extends AbstractActor {
