@@ -1,5 +1,6 @@
 package controllers;
 
+import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -42,7 +43,6 @@ public class SessionController {
 
     Optional<Player> player = playerRepository.getPlayer(name).get();
     if (player.isPresent()) {
-      System.out.println("hello");
       Session newSession = new Session();
       newSession.setIdxPlayer(player.get().getIdPlayer());
       result.put("granted", true)
@@ -51,5 +51,24 @@ public class SessionController {
     } else {
       throw new AuthentificationFailedException();
     }
+  }
+
+  public Result logout(Http.Request request) throws ExecutionException, InterruptedException {
+    JsonNode json = request.body().asJson();
+    if (json == null) {
+      throw new AuthentificationFailedException();
+    }
+
+    Long idSession=json.findPath("idSession").asLong();
+    Optional<Session> session =sessionRepository.getSession(idSession).get();
+
+    if(session.isEmpty()){
+      return badRequest();
+    }
+    ObjectNode result = Json.newObject();
+    sessionRepository.removeSession(session.get());
+    result.put("granted", false);
+        //.put("idSession", suppr.getIdSession());
+    return ok(result);
   }
 }

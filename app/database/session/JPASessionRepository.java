@@ -3,8 +3,12 @@ package database.session;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import database.DatabaseExecutionContext;
+import database.player.Player;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
 import play.db.jpa.JPAApi;
 
@@ -28,12 +32,20 @@ public class JPASessionRepository implements SessionRepository {
   }
 
   @Override
-  public CompletionStage<Session> getSessionPlayerId(Long idxPlayer) {
-    return null;
+  public CompletableFuture<Optional<Session>> getSession(Long idSession) {
+    return CompletableFuture.supplyAsync(() ->
+        jpaApi.withTransaction(entityManager -> {
+          List sessions= entityManager.createNativeQuery("select * from session where session.id_session=\'"+idSession+"\'", Session.class).getResultList();
+          return sessions.stream().findFirst();
+        }), executionContext);
   }
 
   @Override
-  public CompletionStage<Session> removeSession(Session session) {
-    return null;
+  public CompletableFuture<Session> removeSession(Session session) {
+    return CompletableFuture.supplyAsync(() ->
+        (jpaApi.withTransaction(entityManager -> {
+          entityManager.remove(session);
+          return session;
+        })), executionContext);
   }
 }
