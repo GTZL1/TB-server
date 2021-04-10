@@ -5,7 +5,7 @@
     <div class="wrapper doc">
       <article>
         <h1>Create your account</h1>
-        @helper.form(action = routes.Application.newPlayer()) {
+        @helper.form(action = routes.AccountController.saveNewPlayer()) {
           <span>Choose a username</span>
           @helper.inputText(playerForm("username"))
           <span>Choose a password and repeat it</span>
