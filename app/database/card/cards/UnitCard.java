@@ -1,0 +1,18 @@
+package database.card.cards;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="unit_card")
+public class UnitCard extends Card{
+  @Id
+  @Column(name = "idx_card")
+  private Long idxCard;
+
+  public Long getIdxCard() {
+    return idxCard;
+  }
+}
