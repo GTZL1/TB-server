@@ -37,6 +37,7 @@ public class JPAPlayerRepository implements PlayerRepository{
 
   public boolean existsPlayerUsername(String username)
       throws ExecutionException, InterruptedException {
+    System.out.println("*** "+username+" ***");
     return getPlayer(username).get().isPresent();
   }
 }

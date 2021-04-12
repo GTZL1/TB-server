@@ -8,7 +8,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name="unit_card")
 public class UnitCard extends Card{
-  @Id
   @Column(name = "idx_card")
   private Long idxCard;
 
