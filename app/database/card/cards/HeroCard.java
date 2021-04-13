@@ -6,18 +6,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="hero_card")
+//@Table(name="hero_card")
 public class HeroCard extends UnitCard{
-  @Column(name = "idx_card")
-  private Long idxCard;
+  //@Column(name = "idx_card")
+  //private Long idxCard;
 
   @Column(name = "idx_power")
   private Long idxPower;
 
-  @Override
+ /* @Override
   public Long getIdxCard() {
     return idxCard;
-  }
+  }*/
 
   public Long getIdxPower() {
     return idxPower;

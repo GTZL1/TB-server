@@ -1,11 +1,10 @@
 package database.card;
 
-import com.google.inject.ImplementedBy;
 import database.card.cards.*;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public interface CardRepository {
-  CompletableFuture<List<Card>> getCards();
+  List<? extends Card> getCards() throws ExecutionException, InterruptedException;
 }
 
