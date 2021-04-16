@@ -1,21 +1,16 @@
 package controllers;
 
-import static play.mvc.Results.badRequest;
-import static play.mvc.Results.ok;
+import static play.mvc.Results.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import database.player.JPAPlayerRepository;
-import database.player.Player;
-import database.session.AuthentificationFailedException;
-import database.session.JPASessionRepository;
-import database.session.Session;
+import database.player.*;
+import database.session.*;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
 import play.libs.Json;
-import play.mvc.Http;
-import play.mvc.Result;
+import play.mvc.*;
 
 public class SessionController {
 

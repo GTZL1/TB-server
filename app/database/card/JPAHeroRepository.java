@@ -25,7 +25,7 @@ public class JPAHeroRepository implements CardRepository{
     return getHeroCards().get();
   }
 
-  public CompletableFuture<List<HeroCard>> getHeroCards(){
+  private CompletableFuture<List<HeroCard>> getHeroCards(){
     return CompletableFuture.supplyAsync(() ->
         jpaApi.withTransaction(entityManager -> {
           return entityManager.createNativeQuery("select id_card, name, life_points, attack_points, max_number_deck, idx_power"
