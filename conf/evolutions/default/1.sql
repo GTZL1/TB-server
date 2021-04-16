@@ -50,11 +50,11 @@ CREATE TABLE IF NOT EXISTS hero_card
 );
 
 -- !Downs
-DROP TABLE power;
-DROP TABLE hero_card;
-DROP TABLE vehicle_card;
-DROP TABLE spy_card;
-DROP TABLE unit_card;
-DROP TABLE card;
-DROP TABLE session;
-DROP TABLE player;
+DROP TABLE power CASCADE ;
+DROP TABLE hero_card CASCADE ;
+DROP TABLE vehicle_card CASCADE;
+DROP TABLE spy_card CASCADE ;
+DROP TABLE unit_card CASCADE ;
+DROP TABLE card CASCADE ;
+DROP TABLE session CASCADE ;
+DROP TABLE player CASCADE ;

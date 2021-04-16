@@ -41,11 +41,11 @@ public class JPASessionRepository implements SessionRepository {
   }
 
   @Override
-  public CompletableFuture<Session> removeSession(Session session) {
+  public CompletableFuture<Long> removeSession(Long idSession) {
     return CompletableFuture.supplyAsync(() ->
         (jpaApi.withTransaction(entityManager -> {
-          entityManager.remove(session);
-          return session;
+          entityManager.createNativeQuery("delete from session where id_session=\'"+idSession+"\'").executeUpdate();
+          return idSession;
         })), executionContext);
   }
 }
