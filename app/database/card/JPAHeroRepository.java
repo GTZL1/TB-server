@@ -3,9 +3,7 @@ package database.card;
 import database.DatabaseExecutionContext;
 import database.card.cards.*;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
+import java.util.concurrent.*;
 import javax.inject.*;
 import play.db.jpa.JPAApi;
 
