@@ -28,7 +28,7 @@ public class JPAUnitRepository implements CardRepository{
     return CompletableFuture.supplyAsync(() ->
         jpaApi.withTransaction(entityManager -> {
           return entityManager.createNativeQuery("select id_card, name, life_points, attack_points, max_number_deck from card "
-                  + "inner join (select * from unit_card"
+                  + "inner join ((select * from unit_card)"
                   + " except (select idx_card from hero_card)"
                   + " except (select * from vehicle_card)"
                   + " except (select * from spy_card) order by idx_card)"

@@ -8,7 +8,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 //@Table(name="unit_card")
 public class UnitCard extends Card{
   /*@Column(name = "idx_card")

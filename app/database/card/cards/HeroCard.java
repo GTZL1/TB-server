@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 //@Table(name="hero_card")
-public class HeroCard extends UnitCard{
+public class HeroCard extends Card{
   //@Column(name = "idx_card")
   //private Long idxCard;
 
