@@ -1,12 +1,9 @@
 package database.player;
 
-import static java.util.concurrent.CompletableFuture.supplyAsync;
-
 import database.DatabaseExecutionContext;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
 import play.db.jpa.JPAApi;
@@ -40,6 +37,7 @@ public class JPAPlayerRepository implements PlayerRepository{
 
   public boolean existsPlayerUsername(String username)
       throws ExecutionException, InterruptedException {
+    System.out.println("*** "+username+" ***");
     return getPlayer(username).get().isPresent();
   }
 }

@@ -3,7 +3,6 @@ package database.session;
 import com.google.inject.ImplementedBy;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 
 @ImplementedBy(JPASessionRepository.class)
 public interface SessionRepository {
