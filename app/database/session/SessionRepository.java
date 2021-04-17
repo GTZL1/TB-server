@@ -8,5 +8,5 @@ import java.util.concurrent.CompletableFuture;
 public interface SessionRepository {
   CompletableFuture<Session> addSession(Session session);
   CompletableFuture<Optional<Session>> getSession(Long idSession);
-  CompletableFuture<Session> removeSession(Session session);
+  CompletableFuture<Long> removeSession(Long idSession);
 }

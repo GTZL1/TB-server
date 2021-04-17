@@ -25,6 +25,7 @@ public class SessionController {
   }
 
   public Result login(Http.Request request) throws ExecutionException, InterruptedException {
+    // TODO verify player is not already connected
     JsonNode json = request.body().asJson();
     ObjectNode result = Json.newObject();
     if (json == null) {
@@ -55,15 +56,16 @@ public class SessionController {
     }
 
     Long idSession=json.findPath("idSession").asLong();
-    Optional<Session> session =sessionRepository.getSession(idSession).get();
-
-    if(session.isEmpty()){
+    if(!verifyIdSession(idSession)){
       return badRequest();
     }
     ObjectNode result = Json.newObject();
-    sessionRepository.removeSession(session.get());
+    sessionRepository.removeSession(idSession);
     result.put("granted", false);
-        //.put("idSession", suppr.getIdSession());
     return ok(result);
+  }
+
+  public boolean verifyIdSession(Long idSession) throws ExecutionException, InterruptedException {
+    return sessionRepository.getSession(idSession).get().isPresent();
   }
 }
