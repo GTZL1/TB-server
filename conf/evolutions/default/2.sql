@@ -82,9 +82,20 @@ VALUES ((select id_card from card where card.name='Chloe Frazer')),
        ((select id_card from card where card.name='Dragon')),
        ((select id_card from card where card.name='Clicker')),
        ((select id_card from card where card.name='Assassin''s Creed guard'));
+INSERT INTO card (name, life_points, attack_points, max_number_deck)
+values ('Base 1', 38, 0, 1),
+       ('Base 2', 18, 0, 2),
+       ('Base 3', 11, 0, 3);
+
+INSERT INTO base_card(idx_card)
+VALUES ((select id_card from card where card.name='Base 1')),
+       ((select id_card from card where card.name='Base 2')),
+       ((select id_card from card where card.name='Base 3'));
+
 
 -- !Downs
 DELETE FROM power;
+DELETE FROM base_card;
 DELETE FROM hero_card;
 DELETE FROM spy_card;
 DELETE FROM vehicle_card;

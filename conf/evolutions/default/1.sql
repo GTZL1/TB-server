@@ -48,8 +48,14 @@ CREATE TABLE IF NOT EXISTS hero_card
     CONSTRAINT fk_card_hero_card FOREIGN KEY (idx_card) REFERENCES unit_card (idx_card) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT fk_hero_card_power FOREIGN KEY (idx_card) REFERENCES power (id_power) ON UPDATE CASCADE ON DELETE CASCADE
 );
+CREATE TABLE IF NOT EXISTS base_card
+(
+    idx_card BIGINT PRIMARY KEY ,
+    CONSTRAINT fk_card_base_card FOREIGN KEY (idx_card) REFERENCES card (id_card) ON UPDATE CASCADE ON DELETE CASCADE
+);
 
 -- !Downs
+DROP TABLE base_card CASCADE ;
 DROP TABLE power CASCADE ;
 DROP TABLE hero_card CASCADE ;
 DROP TABLE vehicle_card CASCADE;
