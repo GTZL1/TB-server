@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS player
 CREATE TABLE IF NOT EXISTS session
 (
     id_session SERIAL PRIMARY KEY,
-    idx_player BIGINT NOT NULL,
+    idx_player BIGINT UNIQUE NOT NULL,
     CONSTRAINT fk_session_player FOREIGN KEY (idx_player) REFERENCES player (id_player) ON UPDATE CASCADE ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS card

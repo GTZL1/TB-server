@@ -41,11 +41,15 @@ public class SessionController {
     if (player.isPresent()) {
       Session newSession = new Session();
       newSession.setIdxPlayer(player.get().getIdPlayer());
-      result.put("granted", true)
-          .put("idSession", sessionRepository.addSession(newSession).get().getIdSession());
-      return ok(result);
+      try {
+        result.put("granted", true)
+            .put("idSession", sessionRepository.addSession(newSession).get().getIdSession());
+        return ok(result);
+      } catch (Exception exception){
+        return badRequest();
+      }
     } else {
-      throw new AuthentificationFailedException();
+      return badRequest();
     }
   }
 
