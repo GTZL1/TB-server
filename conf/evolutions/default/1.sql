@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS hero_card
     idx_card  BIGINT PRIMARY KEY,
     idx_power BIGINT NOT NULL,
     CONSTRAINT fk_card_hero_card FOREIGN KEY (idx_card) REFERENCES unit_card (idx_card) ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT fk_hero_card_power FOREIGN KEY (idx_card) REFERENCES power (id_power) ON UPDATE CASCADE ON DELETE CASCADE
+    CONSTRAINT fk_hero_card_power FOREIGN KEY (idx_power) REFERENCES power (id_power) ON UPDATE CASCADE ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS base_card
 (
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS deck_card
 (
     idx_deck BIGINT ,
     idx_card BIGINT ,
-    quantity SMALLINT,
+    quantity SMALLINT NOT NULL ,
     PRIMARY KEY (idx_deck, idx_card),
     CONSTRAINT fk_deck_deck_card FOREIGN KEY (idx_deck) REFERENCES deck (id_deck) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT fk_card_deck_card FOREIGN KEY (idx_card) REFERENCES card (id_card) ON UPDATE CASCADE ON DELETE CASCADE
