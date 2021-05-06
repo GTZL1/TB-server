@@ -72,4 +72,8 @@ public class SessionController {
   public boolean verifyIdSession(Long idSession) throws ExecutionException, InterruptedException {
     return sessionRepository.getSession(idSession).get().isPresent();
   }
+
+  public Long getIdPlayerSession(Long idSession) throws ExecutionException, InterruptedException {
+    return sessionRepository.getSession(idSession).get().get().getIdxPlayer();
+  }
 }

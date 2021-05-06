@@ -3,9 +3,11 @@ package database.deckCard;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 @Entity
+@IdClass(DeckCardId.class)
 @Table(name="deck_card")
 public class DeckCard {
   @Id

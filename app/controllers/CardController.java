@@ -5,13 +5,13 @@ import static play.mvc.Results.ok;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import database.card.JPABaseRepository;
-import database.card.JPAHeroRepository;
-import database.card.JPASpyRepository;
-import database.card.JPAUnitRepository;
-import database.card.JPAVehicleRepository;
+import database.card.*;
+import database.card.cards.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.inject.Inject;
 import play.libs.Json;
 import play.mvc.Http;
@@ -36,6 +36,14 @@ public class CardController {
     this.spyRepository = spyRepository;
     this.baseRepository = baseRepository;
     this.sessionController = sessionController;
+  }
+
+  List<Card> getCards() throws ExecutionException, InterruptedException {
+    return Stream.of(heroRepository.getCards(),
+        unitRepository.getCards(),
+        vehicleRepository.getCards(),
+        spyRepository.getCards(),
+        baseRepository.getCards()).flatMap(Collection::stream).collect(Collectors.toList());
   }
 
   public Result getCards(Http.Request request) throws ExecutionException, InterruptedException {
