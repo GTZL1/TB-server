@@ -45,10 +45,13 @@ public class DeckController {
     ObjectNode deckTemp=Json.newObject();
     for(var d: decks){
      List<DeckCard> deckCards=jpaDeckCardRepository.getDeckCards(d.getIdDeck());
+     for(var t: deckCards){
+       //System.out.print(t.getIdxCard());
+     }
      deckTemp.put("name",d.getName());
+     var temp=cardController.getCards().stream().map(Json::toJson).collect(Collectors.toList());
      deckTemp.set("cards",
-         Json.toJson(cardController.getCards().stream().filter(c -> deckCards.stream().map(dc -> dc.getIdxCard()).collect(
-             Collectors.toList()).contains(c.getIdCard())).map(Json::toJson).collect(Collectors.toList())));
+         Json.toJson(temp));
      result.set("deck",deckTemp);
     }
     return ok(result);

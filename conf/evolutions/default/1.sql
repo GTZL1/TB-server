@@ -64,11 +64,12 @@ CREATE TABLE IF NOT EXISTS game
     CONSTRAINT fk_game_player_looser FOREIGN KEY (idx_player_looser) REFERENCES player (id_player) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+-- TODO procedure for default deck and not null
 CREATE TABLE IF NOT EXISTS deck
 (
     id_deck SERIAL PRIMARY KEY,
-    idx_player BIGINT,
-    name VARCHAR(255),
+    idx_player BIGINT NOT NULL ,
+    name VARCHAR(255) NOT NULL ,
     CONSTRAINT fk_player_deck FOREIGN KEY (idx_player) REFERENCES player (id_player) ON UPDATE CASCADE ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS deck_card

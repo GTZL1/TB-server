@@ -7,10 +7,10 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 @Entity
-@IdClass(DeckCardId.class)
+//@IdClass(DeckCardId.class)
 @Table(name="deck_card")
 public class DeckCard {
-  @Id
+  //@Id
   @Column(name = "idx_deck")
   private Long idxDeck;
 
