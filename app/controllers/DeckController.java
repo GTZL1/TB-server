@@ -10,6 +10,7 @@ import database.deck.Deck;
 import database.deck.JPADeckRepository;
 import database.deckCard.DeckCard;
 import database.deckCard.JPADeckCardRepository;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -46,34 +47,27 @@ public class DeckController {
     Long idxPlayer = sessionController.getIdPlayerSession(json.findPath("idSession").asLong());
     List<Deck> decks = jpaDeckRepository.getDeckPlayer(idxPlayer);
 
-    ObjectNode result = Json.newObject();
-    ObjectNode deckTemp = Json.newObject();
+    List<JsonNode> result=new ArrayList<>();
     for (var d : decks) {
       List<JsonNode> cardsRecap = new ArrayList<>();
       //all deck_cards infos
       List<DeckCard> deckCards = jpaDeckCardRepository.getDeckCards(d.getIdDeck());
 
-
-      //keep only cards in the decks
-      var temp = cardController.getCards().stream().filter(
+      //json objects <card name, quantity>
+      //iterate through cards in the deck
+      for (var c : cardController.getCards().stream().filter(
           c -> deckCards.stream().map(DeckCard::getIdxCard).collect(Collectors.toList())
               .contains(c.getIdCard()))
-          .collect(Collectors.toList());
-      //json objects <card name, quantity>
-      for (var c : temp) {
+          .collect(Collectors.toList())) {
         cardsRecap.add(Json.newObject().put("name", c.getName())
             .put("quantity",
             deckCards.stream().filter(dc -> dc.getIdxCard().equals(c.getIdCard()))
             .collect(Collectors.toList()).get(0).getQuantity()));
       }
 
-     /* deckTemp.put("name", d.getName());
-      deckTemp.set("cards",
-          Json.toJson(cardsRecap));*/
-      result.set("deck", Json.newObject()
-          .put("name", d.getName())
+      result.add(Json.newObject().put("name", d.getName())
           .set("cards", Json.toJson(cardsRecap)));
     }
-    return ok(result);
+    return ok(Json.toJson(result));
   }
 }
