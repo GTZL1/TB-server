@@ -19,9 +19,7 @@ public class JPADeckCardRepository implements DeckCardRepository{
 
   @Override
   public List<DeckCard> getDeckCards(Long idxDeck) throws ExecutionException, InterruptedException {
-    List<DeckCard> test= searchDeckCards(idxDeck).get();
-    test.forEach(System.out::println);
-    return test;
+    return searchDeckCards(idxDeck).get();
   }
 
   private CompletableFuture<List<DeckCard>> searchDeckCards(Long idxDeck) {
