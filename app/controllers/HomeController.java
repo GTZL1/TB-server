@@ -1,28 +1,26 @@
 package controllers;
 
 import akka.actor.AbstractActor;
-import akka.actor.ActorPath;
 import akka.actor.ActorRef;
-import akka.actor.ActorRefFactory;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
+import akka.japi.Pair;
 import akka.stream.Materializer;
-import akka.stream.javadsl.JavaFlowSupport.Flow;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Random;
 import javax.inject.Inject;
-import javax.persistence.criteria.CriteriaBuilder.*;
 import play.libs.streams.ActorFlow;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.WebSocket;
 
 public class HomeController extends Controller {
+
   private final ActorSystem actorSystem;
   private final Materializer materializer;
 
-  private List<ActorRef> wss=new ArrayList<>();
+  private List<Pair<Integer, ActorRef>> wss = new ArrayList<>();
 
   @Inject
   public HomeController(ActorSystem actorSystem, Materializer materializer) {
@@ -32,17 +30,20 @@ public class HomeController extends Controller {
 
   public WebSocket socket() {
     return WebSocket.Text.accept(
-        request -> ActorFlow.actorRef(out -> {wss.add(out);
-
-          while(wss.size()<2){
-            try {
-              TimeUnit.SECONDS.sleep(3);
-            } catch (InterruptedException e) {
-              e.printStackTrace();
+        request -> ActorFlow.actorRef(out -> {
+          int key = new Random().nextInt();
+          wss.add(new Pair<>(key, out));
+          int found = -1;
+          while (found < 0) {
+            for (int x = 0; x < wss.size(); x++) {
+              if (wss.get(x).first() != key) {
+                found = x;
+              }
             }
           }
           System.out.println("ws created");
-          return MyWebSocketActor.props(wss.remove(0));}, actorSystem, materializer));
+          return MyWebSocketActor.props(wss.remove(found).second());
+        }, actorSystem, materializer));
   }
 
   /**
@@ -75,12 +76,12 @@ class MyWebSocketActor extends AbstractActor {
     this.out = out;
   }
 
-  public MyWebSocketActor(){
+  public MyWebSocketActor() {
 
   }
 
-  public void setProps(ActorRef out){
-    this.out=out;
+  public void setProps(ActorRef out) {
+    this.out = out;
   }
 
   @Override
