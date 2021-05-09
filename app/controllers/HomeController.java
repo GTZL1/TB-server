@@ -1,24 +1,28 @@
 package controllers;
 
 import akka.actor.AbstractActor;
+import akka.actor.ActorPath;
 import akka.actor.ActorRef;
+import akka.actor.ActorRefFactory;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.stream.Materializer;
+import akka.stream.javadsl.JavaFlowSupport.Flow;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
-import play.data.Form;
-import play.data.FormFactory;
-import play.i18n.*;
+import javax.persistence.criteria.CriteriaBuilder.*;
 import play.libs.streams.ActorFlow;
 import play.mvc.Controller;
-import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.WebSocket;
 
 public class HomeController extends Controller {
-
   private final ActorSystem actorSystem;
   private final Materializer materializer;
+
+  private List<ActorRef> wss=new ArrayList<>();
 
   @Inject
   public HomeController(ActorSystem actorSystem, Materializer materializer) {
@@ -27,9 +31,18 @@ public class HomeController extends Controller {
   }
 
   public WebSocket socket() {
-    System.out.println("socket1");
     return WebSocket.Text.accept(
-        request -> ActorFlow.actorRef(MyWebSocketActor::props, actorSystem, materializer));
+        request -> ActorFlow.actorRef(out -> {wss.add(out);
+
+          while(wss.size()<2){
+            try {
+              TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            }
+          }
+          System.out.println("ws created");
+          return MyWebSocketActor.props(wss.remove(0));}, actorSystem, materializer));
   }
 
   /**
@@ -41,7 +54,7 @@ public class HomeController extends Controller {
     return ok(views.html.home.render());
   }
 
-  public Result rules() {
+  public Result rules() throws InterruptedException {
     return ok(views.html.rules.render());
   }
 }
@@ -52,10 +65,22 @@ class MyWebSocketActor extends AbstractActor {
     return Props.create(MyWebSocketActor.class, out);
   }
 
-  private final ActorRef out;
+  public static Props props() {
+    return Props.create(MyWebSocketActor.class);
+  }
+
+  private ActorRef out;
 
   public MyWebSocketActor(ActorRef out) {
     this.out = out;
+  }
+
+  public MyWebSocketActor(){
+
+  }
+
+  public void setProps(ActorRef out){
+    this.out=out;
   }
 
   @Override
