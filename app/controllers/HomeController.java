@@ -87,7 +87,7 @@ class MyWebSocketActor extends AbstractActor {
   @Override
   public Receive createReceive() {
     return receiveBuilder()
-        .match(String.class, message -> out.tell("I received your message: " + message, self()))
+        .match(String.class, message -> out.tell(message, self()))
         .build();
   }
 }
