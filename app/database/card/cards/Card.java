@@ -30,6 +30,9 @@ public abstract class Card {
   @Column(name = "max_number_deck")
   private int maxNumberInDeck;
 
+  @Column(name = "image")
+  private String image;
+
   public void setName(String name) {
     this.name = name;
   }
@@ -64,5 +67,9 @@ public abstract class Card {
 
   public int getMaxNumberInDeck() {
     return maxNumberInDeck;
+  }
+
+  public String getImage() {
+    return image;
   }
 }

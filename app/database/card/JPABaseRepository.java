@@ -30,7 +30,7 @@ public class JPABaseRepository implements CardRepository {
     return CompletableFuture.supplyAsync(() ->
         jpaApi.withTransaction(entityManager -> {
           return entityManager
-              .createNativeQuery("select id_card, name, life_points, attack_points, max_number_deck"
+              .createNativeQuery("select id_card, name, life_points, attack_points, max_number_deck, image"
                       + " from card inner join base_card on id_card = idx_card"
                   , BaseCard.class).getResultList();
         }), executionContext);

@@ -66,18 +66,10 @@ class MyWebSocketActor extends AbstractActor {
     return Props.create(MyWebSocketActor.class, out);
   }
 
-  public static Props props() {
-    return Props.create(MyWebSocketActor.class);
-  }
-
   private ActorRef out;
 
   public MyWebSocketActor(ActorRef out) {
     this.out = out;
-  }
-
-  public MyWebSocketActor() {
-
   }
 
   public void setProps(ActorRef out) {
@@ -87,7 +79,8 @@ class MyWebSocketActor extends AbstractActor {
   @Override
   public Receive createReceive() {
     return receiveBuilder()
-        .match(String.class, message -> out.tell(message, self()))
+        .match(String.class, message -> {System.out.println(message);
+          out.tell(message, self());})
         .build();
   }
 }

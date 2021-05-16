@@ -7,12 +7,12 @@ values ('PrecisionStrike'),
        ('Healing'),
        ('DoubleStrike'),
        ('Incineration');
-INSERT INTO card (name, life_points, attack_points, max_number_deck)
-values ('Ahsoka Tano', 8, 10, 1),
-       ('Aloy', 8, 10, 1),
-       ('V', 8, 8, 1),
-       ('Jon Snow', 9, 8, 1),
-       ('Geralt of Rivia', 10, 10, 1);
+INSERT INTO card (name, life_points, attack_points, max_number_deck, image)
+values ('Ahsoka Tano', 8, 10, 1, 'https://nsm09.casimages.com/img/2021/05/16//21051612415425970017418852.jpg'),
+       ('Aloy', 8, 10, 1, 'https://nsm09.casimages.com/img/2021/05/16//21051611184925970017418778.png'),
+       ('V', 8, 8, 1, 'https://nsm09.casimages.com/img/2021/05/16//21051612055125970017418830.jpg'),
+       ('Jon Snow', 9, 8, 1, 'https://nsm09.casimages.com/img/2021/05/16//21051611183625970017418776.jpg'),
+       ('Geralt of Rivia', 10, 10, 1, 'default');
 INSERT INTO unit_card(idx_card)
 VALUES ((select id_card from card where card.name='Ahsoka Tano')),
        ((select id_card from card where card.name='Aloy')),
@@ -26,9 +26,9 @@ values ((select id_card from card where card.name='Ahsoka Tano'),(select id_powe
        ((select id_card from card where card.name='Jon Snow'),(select id_power from power where power.name='DoubleStrike')),
        ((select id_card from card where card.name='Geralt of Rivia'),(select id_power from power where power.name='Incineration'));
 
-INSERT INTO card (name, life_points, attack_points, max_number_deck)
-values ('James Bond', 6, 5, 1),
-       ('Vanasha', 5, 5, 1);
+INSERT INTO card (name, life_points, attack_points, max_number_deck, image)
+values ('James Bond', 6, 5, 1, 'default'),
+       ('Vanasha', 5, 5, 1, 'https://nsm09.casimages.com/img/2021/05/16//21051612415525970017418853.jpg');
 INSERT INTO unit_card(idx_card)
 VALUES ((select id_card from card where card.name='James Bond')),
        ((select id_card from card where card.name='Vanasha'));
@@ -36,11 +36,11 @@ INSERT INTO spy_card(idx_card)
 VALUES ((select id_card from card where card.name='James Bond')),
        ((select id_card from card where card.name='Vanasha'));
 
-INSERT INTO card (name, life_points, attack_points, max_number_deck)
-values ('Avatar gunship', 5, 6, 2),
-       ('Black Pearl', 7, 4, 1),
-       ('Jedi starfighter', 4, 8, 1),
-       ('Glinthawk', 4, 3, 2);
+INSERT INTO card (name, life_points, attack_points, max_number_deck, image)
+values ('Avatar gunship', 5, 6, 2, 'https://nsm09.casimages.com/img/2021/05/16//21051611183525970017418775.jpg'),
+       ('Black Pearl', 7, 4, 1, 'default'),
+       ('Jedi starfighter', 4, 8, 1, 'https://nsm09.casimages.com/img/2021/05/16//21051612055225970017418833.png'),
+       ('Glinthawk', 4, 3, 2, 'default');
 INSERT INTO unit_card(idx_card)
 VALUES ((select id_card from card where card.name='Avatar gunship')),
        ((select id_card from card where card.name='Black Pearl')),
@@ -52,21 +52,22 @@ VALUES ((select id_card from card where card.name='Avatar gunship')),
        ((select id_card from card where card.name='Jedi starfighter')),
        ((select id_card from card where card.name='Glinthawk'));
 
-INSERT INTO card (name, life_points, attack_points, max_number_deck)
-values ('Chloe Frazer', 8, 6, 1),
-       ('John Wick', 7, 7, 1),
-       ('Scorcher', 7, 9, 2),
-       ('Cheeseburger', 9, 4, 1),
-       ('Judy Alvarez', 4, 4, 1),
-       ('Mammoth', 10, 3, 2),
-       ('Griffin', 7, 5, 2),
-       ('Direwolf', 5, 3, 3),
-       ('Kirov', 2, 10, 1),
-       ('Sombra', 5, 5, 1),
-       ('Death Trooper', 4, 8, 2),
-       ('Dragon', 7, 7, 1),
-       ('Clicker', 4, 6, 3),
-       ('Assassin''s Creed guard',2 ,2 ,3);
+INSERT INTO card (name, life_points, attack_points, max_number_deck, image)
+values ('Chloe Frazer', 8, 6, 1, 'https://nsm09.casimages.com/img/2021/05/16//21051611183525970017418774.png'),
+       ('John Wick', 7, 7, 1, 'default'),
+       ('Scorcher', 7, 9, 2, 'default'),
+       ('Cheeseburger', 9, 4, 1, 'default'),
+       ('Judy Alvarez', 4, 4, 1, 'https://nsm09.casimages.com/img/2021/05/16//21051612055125970017418829.jpg'),
+       ('Mammoth', 10, 3, 2, 'default'),
+       ('Ellie', 5, 5, 1, 'https://nsm09.casimages.com/img/2021/05/16//21051612055225970017418832.jpg'),
+       ('Direwolf', 5, 3, 3, 'default'),
+       ('Kirov', 2, 10, 1, 'default'),
+       ('Sombra', 5, 5, 1, 'default'),
+       ('Indiana Jones', 4, 8, 1, 'default'),
+       ('Dragon', 7, 7, 2, 'default'),
+       ('Clicker', 4, 6, 3, 'default'),
+       ('Assassin''s Creed guard',2 ,2 ,3, 'default'),
+       ('Tremortusk', 6, 6, 2, 'https://nsm09.casimages.com/img/2021/05/16//21051612055125970017418831.jpg');
 INSERT INTO unit_card(idx_card)
 VALUES ((select id_card from card where card.name='Chloe Frazer')),
        ((select id_card from card where card.name='John Wick')),
@@ -74,18 +75,19 @@ VALUES ((select id_card from card where card.name='Chloe Frazer')),
        ((select id_card from card where card.name='Cheeseburger')),
        ((select id_card from card where card.name='Judy Alvarez')),
        ((select id_card from card where card.name='Mammoth')),
-       ((select id_card from card where card.name='Griffin')),
+       ((select id_card from card where card.name='Ellie')),
        ((select id_card from card where card.name='Direwolf')),
        ((select id_card from card where card.name='Kirov')),
        ((select id_card from card where card.name='Sombra')),
-       ((select id_card from card where card.name='Death Trooper')),
+       ((select id_card from card where card.name='Indiana Jones')),
        ((select id_card from card where card.name='Dragon')),
        ((select id_card from card where card.name='Clicker')),
-       ((select id_card from card where card.name='Assassin''s Creed guard'));
-INSERT INTO card (name, life_points, attack_points, max_number_deck)
-values ('Base 1', 38, 0, 1),
-       ('Base 2', 18, 0, 2),
-       ('Base 3', 11, 0, 3);
+       ((select id_card from card where card.name='Assassin''s Creed guard')),
+       ((select id_card from card where card.name='Tremortusk'));
+INSERT INTO card (name, life_points, attack_points, max_number_deck, image)
+values ('Base 1', 38, 0, 1, 'default'),
+       ('Base 2', 18, 0, 2, 'default'),
+       ('Base 3', 11, 0, 3, 'default');
 
 INSERT INTO base_card(idx_card)
 VALUES ((select id_card from card where card.name='Base 1')),
