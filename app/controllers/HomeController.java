@@ -4,14 +4,14 @@ import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
+import akka.japi.Pair;
 import akka.stream.Materializer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import javax.inject.Inject;
-import play.data.Form;
-import play.data.FormFactory;
-import play.i18n.*;
 import play.libs.streams.ActorFlow;
 import play.mvc.Controller;
-import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.WebSocket;
 
@@ -20,6 +20,8 @@ public class HomeController extends Controller {
   private final ActorSystem actorSystem;
   private final Materializer materializer;
 
+  private List<Pair<Integer, ActorRef>> wss = new ArrayList<>();
+
   @Inject
   public HomeController(ActorSystem actorSystem, Materializer materializer) {
     this.actorSystem = actorSystem;
@@ -27,9 +29,21 @@ public class HomeController extends Controller {
   }
 
   public WebSocket socket() {
-    System.out.println("socket1");
     return WebSocket.Text.accept(
-        request -> ActorFlow.actorRef(MyWebSocketActor::props, actorSystem, materializer));
+        request -> ActorFlow.actorRef(out -> {
+          int key = new Random().nextInt();
+          wss.add(new Pair<>(key, out));
+          int found = -1;
+          while (found < 0) {
+            for (int x = 0; x < wss.size(); x++) {
+              if (wss.get(x).first() != key) {
+                found = x;
+              }
+            }
+          }
+          System.out.println("ws created");
+          return MyWebSocketActor.props(wss.remove(found).second());
+        }, actorSystem, materializer));
   }
 
   /**
@@ -41,7 +55,7 @@ public class HomeController extends Controller {
     return ok(views.html.home.render());
   }
 
-  public Result rules() {
+  public Result rules() throws InterruptedException {
     return ok(views.html.rules.render());
   }
 }
@@ -52,16 +66,21 @@ class MyWebSocketActor extends AbstractActor {
     return Props.create(MyWebSocketActor.class, out);
   }
 
-  private final ActorRef out;
+  private ActorRef out;
 
   public MyWebSocketActor(ActorRef out) {
+    this.out = out;
+  }
+
+  public void setProps(ActorRef out) {
     this.out = out;
   }
 
   @Override
   public Receive createReceive() {
     return receiveBuilder()
-        .match(String.class, message -> out.tell("I received your message: " + message, self()))
+        .match(String.class, message -> {System.out.println(message);
+          out.tell(message, self());})
         .build();
   }
 }
