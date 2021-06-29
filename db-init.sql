@@ -159,8 +159,8 @@ values ('Chloe Frazer', 8, 6, 1),
        ('Asari warrior', 4, 8, 3),
        ('Valyrian dragon', 7, 7, 2),
        ('Clicker', 4, 6, 3),
-       ('Assassin''s Creed guard',2 ,2 ,3),
-       ('Tremortusk', 6, 6, 2);
+	   ('Tremortusk', 6, 6, 2),
+       ('Assassin''s Creed guard',2 ,2 ,6);
 INSERT INTO unit_card(idx_card)
 VALUES ((select id_card from card where card.name='Chloe Frazer')),
        ((select id_card from card where card.name='John Wick')),

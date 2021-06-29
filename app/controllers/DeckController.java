@@ -3,14 +3,11 @@ package controllers;
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
 
-import akka.japi.Pair;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import database.deck.Deck;
 import database.deck.JPADeckRepository;
 import database.deckCard.DeckCard;
 import database.deckCard.JPADeckCardRepository;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -65,7 +62,8 @@ public class DeckController {
             .collect(Collectors.toList()).get(0).getQuantity()));
       }
 
-      result.add(Json.newObject().put("name", d.getName())
+      result.add(Json.newObject().put("id", d.getIdDeck())
+          .put("name", d.getName())
           .set("cards", Json.toJson(cardsRecap)));
     }
     return ok(Json.toJson(result));
