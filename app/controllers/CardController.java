@@ -52,6 +52,7 @@ public class CardController {
 
   public Result getCards(Http.Request request) throws ExecutionException, InterruptedException {
     JsonNode json = request.body().asJson();
+    System.out.println(json);
     if (json == null || !sessionController.verifyIdSession(json.findPath("idSession").asLong())) {
       return badRequest();
     }

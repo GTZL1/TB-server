@@ -68,4 +68,18 @@ public class DeckController {
     }
     return ok(Json.toJson(result));
   }
+
+  public Result updatePlayerDeck(Http.Request request)
+      throws ExecutionException, InterruptedException {
+    JsonNode jsonRequest = request.body().asJson();
+    System.out.println(jsonRequest);
+    if (jsonRequest == null || !sessionController.verifyIdSession(jsonRequest.findPath("idSession").asLong())) {
+      return badRequest();
+    }
+
+    Long idxPlayer = sessionController.getIdPlayerSession(jsonRequest.findPath("idSession").asLong());
+    JsonNode jsonDeck = jsonRequest.findPath("deckType");
+    System.out.println(jsonDeck);
+    return ok("Red leader, standing by");
+  }
 }
