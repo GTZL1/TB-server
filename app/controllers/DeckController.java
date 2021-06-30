@@ -3,13 +3,16 @@ package controllers;
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import database.deck.Deck;
 import database.deck.JPADeckRepository;
 import database.deckCard.DeckCard;
 import database.deckCard.JPADeckCardRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
@@ -70,16 +73,32 @@ public class DeckController {
   }
 
   public Result updatePlayerDeck(Http.Request request)
-      throws ExecutionException, InterruptedException {
+      throws ExecutionException, InterruptedException, JsonProcessingException {
     JsonNode jsonRequest = request.body().asJson();
-    System.out.println(jsonRequest);
     if (jsonRequest == null || !sessionController.verifyIdSession(jsonRequest.findPath("idSession").asLong())) {
       return badRequest();
     }
 
     Long idxPlayer = sessionController.getIdPlayerSession(jsonRequest.findPath("idSession").asLong());
-    JsonNode jsonDeck = jsonRequest.findPath("deckType");
-    System.out.println(jsonDeck);
+
+    JsonNode jsonDeck = Json.parse(jsonRequest.findPath("deckType").textValue());
+    Long deckId=jsonDeck.get("id").asLong();
+    String deckName = jsonDeck.get("name").asText();
+    System.out.println(deckId+" "+deckName);
+    Optional<Deck> playerDeck=jpaDeckRepository.getDeckPlayer(idxPlayer).stream().filter(
+        deck -> deck.getIdDeck().equals(deckId)).findFirst();
+    //if deck exists already
+    if(playerDeck.isPresent() && !playerDeck.get().getName().equals(deckName)) {
+      //update name
+    } else if (deckId<0) { //new decks id always equal -1
+      //insert new deck
+    }
+
+    //delete and insert deck cards
+
+    JsonNode cards= jsonDeck.get("cards");
+
+
     return ok("Red leader, standing by");
   }
 }
