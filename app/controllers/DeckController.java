@@ -89,11 +89,13 @@ public class DeckController {
 
     Optional<Deck> playerDeck=jpaDeckRepository.getDeckPlayer(idxPlayer).stream().filter(
         deck -> deck.getIdDeck().equals(idxDeck)).findFirst();
+
     //if deck exists already
     if(playerDeck.isPresent() && !playerDeck.get().getName().equals(deckName)) {
-      //update name
+      jpaDeckRepository.changeDeckName(idxDeck, deckName);
     } else if (idxDeck<0) { //new decks id always equal -1
       //insert new deck
+      //update idxDeck
     }
 
     JsonNode cards= jsonDeck.get("cards");
