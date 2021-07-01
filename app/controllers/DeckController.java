@@ -6,9 +6,11 @@ import static play.mvc.Results.ok;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import database.card.cards.Card;
 import database.deck.Deck;
 import database.deck.JPADeckRepository;
 import database.deckCard.DeckCard;
+import database.deckCard.DeckCardId;
 import database.deckCard.JPADeckCardRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,22 +84,33 @@ public class DeckController {
     Long idxPlayer = sessionController.getIdPlayerSession(jsonRequest.findPath("idSession").asLong());
 
     JsonNode jsonDeck = Json.parse(jsonRequest.findPath("deckType").textValue());
-    Long deckId=jsonDeck.get("id").asLong();
+    Long idxDeck=jsonDeck.get("id").asLong();
     String deckName = jsonDeck.get("name").asText();
-    System.out.println(deckId+" "+deckName);
+
     Optional<Deck> playerDeck=jpaDeckRepository.getDeckPlayer(idxPlayer).stream().filter(
-        deck -> deck.getIdDeck().equals(deckId)).findFirst();
+        deck -> deck.getIdDeck().equals(idxDeck)).findFirst();
     //if deck exists already
     if(playerDeck.isPresent() && !playerDeck.get().getName().equals(deckName)) {
       //update name
-    } else if (deckId<0) { //new decks id always equal -1
+    } else if (idxDeck<0) { //new decks id always equal -1
       //insert new deck
     }
 
-    //delete and insert deck cards
-
     JsonNode cards= jsonDeck.get("cards");
+    List<Card> cardTypes =cardController.getCards();
 
+    jpaDeckCardRepository.removeDeckCards(idxDeck);
+
+    for (JsonNode card : cards) {
+      Long idxCard = cardTypes.stream().filter(card1 -> card1.getName().equals(
+          card.get("name").asText())).findFirst().get().getIdCard();
+
+      DeckCard newCard= new DeckCard();
+      newCard.setQuantity(card.get("quantity").asInt());
+      newCard.setIdDeckCard(new DeckCardId(idxDeck, idxCard));
+
+      jpaDeckCardRepository.addDeckCard(newCard);
+    }
 
     return ok("Red leader, standing by");
   }
