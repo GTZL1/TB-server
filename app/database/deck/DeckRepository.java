@@ -10,4 +10,5 @@ public interface DeckRepository {
   CompletableFuture<Deck> addNewDeck (Deck deck);
   List<Deck> getDeckPlayer(Long idxPlayer) throws ExecutionException, InterruptedException;
   String changeDeckName(Long idDeck, String name) throws ExecutionException, InterruptedException;
+  Long removeDeck(Long idDeck) throws ExecutionException, InterruptedException;
 }

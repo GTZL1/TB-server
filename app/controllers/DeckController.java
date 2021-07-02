@@ -124,4 +124,18 @@ public class DeckController {
 
     return ok(Json.newObject().put("idDeck", idDeck));
   }
+
+  public Result removePlayerDeck(Http.Request request)
+      throws ExecutionException, InterruptedException, JsonProcessingException {
+    JsonNode jsonRequest = request.body().asJson();
+    if (jsonRequest == null || !sessionController
+        .verifyIdSession(jsonRequest.findPath("idSession").asLong())) {
+      return badRequest();
+    }
+
+    JsonNode jsonDeck = Json.parse(jsonRequest.findPath("deckType").textValue());
+    jpaDeckRepository.removeDeck(jsonDeck.get("id").asLong());
+
+    return ok();
+  }
 }

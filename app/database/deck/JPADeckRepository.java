@@ -54,4 +54,13 @@ public class JPADeckRepository implements DeckRepository{
           return name;
         })), executionContext);
   }
+
+  @Override
+  public Long removeDeck(Long idDeck) throws ExecutionException, InterruptedException {
+    return CompletableFuture.supplyAsync(() ->
+        (jpaApi.withTransaction(entityManager -> {
+          entityManager.createNativeQuery("delete from deck where id_deck=\'"+idDeck+"\'").executeUpdate();
+          return idDeck;
+        })), executionContext).get();
+  }
 }
