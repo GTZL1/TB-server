@@ -6,6 +6,7 @@ import static play.mvc.Results.ok;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import database.card.cards.Card;
 import database.deck.Deck;
 import database.deck.JPADeckRepository;
@@ -84,24 +85,31 @@ public class DeckController {
     Long idxPlayer = sessionController.getIdPlayerSession(jsonRequest.findPath("idSession").asLong());
 
     JsonNode jsonDeck = Json.parse(jsonRequest.findPath("deckType").textValue());
-    Long idxDeck=jsonDeck.get("id").asLong();
+    Long idDeck=jsonDeck.get("id").asLong();
     String deckName = jsonDeck.get("name").asText();
 
+    Long finalIdDeck = idDeck;
     Optional<Deck> playerDeck=jpaDeckRepository.getDeckPlayer(idxPlayer).stream().filter(
-        deck -> deck.getIdDeck().equals(idxDeck)).findFirst();
+        deck -> deck.getIdDeck().equals(finalIdDeck)).findFirst();
 
     //if deck exists already
     if(playerDeck.isPresent() && !playerDeck.get().getName().equals(deckName)) {
-      jpaDeckRepository.changeDeckName(idxDeck, deckName);
-    } else if (idxDeck<0) { //new decks id always equal -1
-      //insert new deck
-      //update idxDeck
+      jpaDeckRepository.changeDeckName(idDeck, deckName);
+    } else if (idDeck<0) { //new decks id always equal -1
+      Deck newDeck = new Deck();
+      newDeck.setPlayerAndName(idxPlayer, deckName);
+      Long newIdDeck=jpaDeckRepository.addNewDeck(newDeck).get().getIdDeck();
+
+      //return true new id
+      if(!newIdDeck.equals(idDeck)){
+        idDeck=newIdDeck;
+      }
     }
 
     JsonNode cards= jsonDeck.get("cards");
     List<Card> cardTypes =cardController.getCards();
 
-    jpaDeckCardRepository.removeDeckCards(idxDeck);
+    jpaDeckCardRepository.removeDeckCards(idDeck);
 
     for (JsonNode card : cards) {
       Long idxCard = cardTypes.stream().filter(card1 -> card1.getName().equals(
@@ -109,11 +117,11 @@ public class DeckController {
 
       DeckCard newCard= new DeckCard();
       newCard.setQuantity(card.get("quantity").asInt());
-      newCard.setIdDeckCard(new DeckCardId(idxDeck, idxCard));
+      newCard.setIdDeckCard(new DeckCardId(idDeck, idxCard));
 
       jpaDeckCardRepository.addDeckCard(newCard);
     }
 
-    return ok("Red leader, standing by");
+    return ok(Json.newObject().put("idDeck", idDeck));
   }
 }

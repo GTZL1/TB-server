@@ -20,6 +20,15 @@ public class JPADeckRepository implements DeckRepository{
   }
 
   @Override
+  public CompletableFuture<Deck> addNewDeck(Deck deck) {
+    return supplyAsync(() ->
+        (jpaApi.withTransaction(entityManager -> {
+          entityManager.persist(deck);
+          return deck;
+        })), executionContext);
+  }
+
+  @Override
   public List<Deck> getDeckPlayer(Long idxPlayer) throws ExecutionException, InterruptedException {
     return searchDecks(idxPlayer).get();
   }
