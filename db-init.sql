@@ -159,8 +159,8 @@ values ('Chloe Frazer', 8, 6, 1),
        ('Asari warrior', 4, 8, 3),
        ('Valyrian dragon', 7, 7, 2),
        ('Clicker', 4, 6, 3),
-       ('Assassin''s Creed guard',2 ,2 ,3),
-       ('Tremortusk', 6, 6, 2);
+	   ('Tremortusk', 6, 6, 2),
+       ('Assassin''s Creed guard',2 ,2 ,6);
 INSERT INTO unit_card(idx_card)
 VALUES ((select id_card from card where card.name='Chloe Frazer')),
        ((select id_card from card where card.name='John Wick')),
@@ -176,11 +176,11 @@ VALUES ((select id_card from card where card.name='Chloe Frazer')),
        ((select id_card from card where card.name='Asari warrior')),
        ((select id_card from card where card.name='Valyrian dragon')),
        ((select id_card from card where card.name='Clicker')),
-       ((select id_card from card where card.name='Assassin''s Creed guard')),
-       ((select id_card from card where card.name='Tremortusk'));
+	   ((select id_card from card where card.name='Tremortusk')),
+       ((select id_card from card where card.name='Assassin''s Creed guard'));
 INSERT INTO card (name, life_points, attack_points, max_number_deck)
-values ('Base 1', 38, 0, 1),
-       ('Base 2', 18, 0, 2),
+values ('Base 1', 45, 0, 1),
+       ('Base 2', 20, 0, 2),
        ('Base 3', 11, 0, 3);
 
 INSERT INTO base_card(idx_card)

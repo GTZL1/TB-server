@@ -32,4 +32,9 @@ public class Deck {
   public String getName() {
     return name;
   }
+
+  public void setPlayerAndName(Long idxPlayer, String name) {
+    this.idxPlayer = idxPlayer;
+    this.name = name;
+  }
 }

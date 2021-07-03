@@ -11,4 +11,5 @@
 # Set the extra SBT options
 
 -Dsbt.log.format=true
+-Dhttp.port=2077
 

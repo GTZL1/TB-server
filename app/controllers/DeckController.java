@@ -3,16 +3,19 @@ package controllers;
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
 
-import akka.japi.Pair;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import database.card.cards.Card;
 import database.deck.Deck;
 import database.deck.JPADeckRepository;
 import database.deckCard.DeckCard;
+import database.deckCard.DeckCardId;
 import database.deckCard.JPADeckCardRepository;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
@@ -65,9 +68,74 @@ public class DeckController {
             .collect(Collectors.toList()).get(0).getQuantity()));
       }
 
-      result.add(Json.newObject().put("name", d.getName())
+      result.add(Json.newObject().put("id", d.getIdDeck())
+          .put("name", d.getName())
           .set("cards", Json.toJson(cardsRecap)));
     }
     return ok(Json.toJson(result));
+  }
+
+  public Result updatePlayerDeck(Http.Request request)
+      throws ExecutionException, InterruptedException, JsonProcessingException {
+    JsonNode jsonRequest = request.body().asJson();
+    if (jsonRequest == null || !sessionController.verifyIdSession(jsonRequest.findPath("idSession").asLong())) {
+      return badRequest();
+    }
+
+    Long idxPlayer = sessionController.getIdPlayerSession(jsonRequest.findPath("idSession").asLong());
+
+    JsonNode jsonDeck = Json.parse(jsonRequest.findPath("deckType").textValue());
+    Long idDeck=jsonDeck.get("id").asLong();
+    String deckName = jsonDeck.get("name").asText();
+
+    Long finalIdDeck = idDeck;
+    Optional<Deck> playerDeck=jpaDeckRepository.getDeckPlayer(idxPlayer).stream().filter(
+        deck -> deck.getIdDeck().equals(finalIdDeck)).findFirst();
+
+    //if deck exists already
+    if(playerDeck.isPresent() && !playerDeck.get().getName().equals(deckName)) {
+      jpaDeckRepository.changeDeckName(idDeck, deckName);
+    } else if (idDeck<0) { //new decks id always equal -1
+      Deck newDeck = new Deck();
+      newDeck.setPlayerAndName(idxPlayer, deckName);
+      Long newIdDeck=jpaDeckRepository.addNewDeck(newDeck).get().getIdDeck();
+
+      //return true new id
+      if(!newIdDeck.equals(idDeck)){
+        idDeck=newIdDeck;
+      }
+    }
+
+    JsonNode cards= jsonDeck.get("cards");
+    List<Card> cardTypes =cardController.getCards();
+
+    jpaDeckCardRepository.removeDeckCards(idDeck);
+
+    for (JsonNode card : cards) {
+      Long idxCard = cardTypes.stream().filter(card1 -> card1.getName().equals(
+          card.get("name").asText())).findFirst().get().getIdCard();
+
+      DeckCard newCard= new DeckCard();
+      newCard.setQuantity(card.get("quantity").asInt());
+      newCard.setIdDeckCard(new DeckCardId(idDeck, idxCard));
+
+      jpaDeckCardRepository.addDeckCard(newCard);
+    }
+
+    return ok(Json.newObject().put("idDeck", idDeck));
+  }
+
+  public Result removePlayerDeck(Http.Request request)
+      throws ExecutionException, InterruptedException, JsonProcessingException {
+    JsonNode jsonRequest = request.body().asJson();
+    if (jsonRequest == null || !sessionController
+        .verifyIdSession(jsonRequest.findPath("idSession").asLong())) {
+      return badRequest();
+    }
+
+    JsonNode jsonDeck = Json.parse(jsonRequest.findPath("deckType").textValue());
+    jpaDeckRepository.removeDeck(jsonDeck.get("id").asLong());
+
+    return ok();
   }
 }

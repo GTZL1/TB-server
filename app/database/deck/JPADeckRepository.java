@@ -1,5 +1,7 @@
 package database.deck;
 
+import static java.util.concurrent.CompletableFuture.supplyAsync;
+
 import database.DatabaseExecutionContext;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -18,6 +20,15 @@ public class JPADeckRepository implements DeckRepository{
   }
 
   @Override
+  public CompletableFuture<Deck> addNewDeck(Deck deck) {
+    return supplyAsync(() ->
+        (jpaApi.withTransaction(entityManager -> {
+          entityManager.persist(deck);
+          return deck;
+        })), executionContext);
+  }
+
+  @Override
   public List<Deck> getDeckPlayer(Long idxPlayer) throws ExecutionException, InterruptedException {
     return searchDecks(idxPlayer).get();
   }
@@ -27,5 +38,29 @@ public class JPADeckRepository implements DeckRepository{
         jpaApi.withTransaction(entityManager -> {
           return entityManager.createNativeQuery("select * from deck where idx_player=\'"+idxPlayer+"\'", Deck.class).getResultList();
         }), executionContext);
+  }
+
+  @Override
+  public String changeDeckName(Long idDeck, String name)
+      throws ExecutionException, InterruptedException {
+    return updateDeckName(idDeck, name).get();
+  }
+
+  private CompletableFuture<String> updateDeckName(Long idDeck, String name) {
+    return supplyAsync(() ->
+        (jpaApi.withTransaction(entityManager -> {
+          entityManager.createNativeQuery(
+              "update deck set name= \'"+name+"\' where id_deck=\'" + idDeck + "\'").executeUpdate();
+          return name;
+        })), executionContext);
+  }
+
+  @Override
+  public Long removeDeck(Long idDeck) throws ExecutionException, InterruptedException {
+    return CompletableFuture.supplyAsync(() ->
+        (jpaApi.withTransaction(entityManager -> {
+          entityManager.createNativeQuery("delete from deck where id_deck=\'"+idDeck+"\'").executeUpdate();
+          return idDeck;
+        })), executionContext).get();
   }
 }

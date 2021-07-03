@@ -25,4 +25,12 @@ public class DeckCard {
   public short getQuantity() {
     return quantity;
   }
+
+  public void setIdDeckCard(DeckCardId idDeckCard) {
+    this.idDeckCard = idDeckCard;
+  }
+
+  public void setQuantity(int quantity) {
+    this.quantity = (short) quantity;
+  }
 }

@@ -13,6 +13,8 @@ GET /logout controllers.SessionController.logout(request: play.mvc.Http.Request)
 GET /cards controllers.CardController.getCards(request: play.mvc.Http.Request)
 GET /powers controllers.PowerController.getPowers(request: play.mvc.Http.Request)
 GET /decks controllers.DeckController.getPlayerDeck(request: play.mvc.Http.Request)
+POST /decks controllers.DeckController.updatePlayerDeck(request: play.mvc.Http.Request)
+DELETE /decks controllers.DeckController.removePlayerDeck(request: play.mvc.Http.Request)
 
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)
