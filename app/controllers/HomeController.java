@@ -3,12 +3,18 @@ package controllers;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import akka.actor.PoisonPill;
 import akka.actor.Props;
 import akka.japi.Pair;
 import akka.stream.Materializer;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.inject.Inject;
 import play.libs.streams.ActorFlow;
 import play.mvc.Controller;
@@ -20,7 +26,7 @@ public class HomeController extends Controller {
   private final ActorSystem actorSystem;
   private final Materializer materializer;
 
-  private List<Pair<Integer, ActorRef>> wss = new ArrayList<>();
+  private final Map<Integer, ActorRef> wss = new ConcurrentHashMap<>();
 
   @Inject
   public HomeController(ActorSystem actorSystem, Materializer materializer) {
@@ -29,20 +35,21 @@ public class HomeController extends Controller {
   }
 
   public WebSocket socket() {
+    int key = Math.abs(new Random().nextInt());
     return WebSocket.Text.accept(
         request -> ActorFlow.actorRef(out -> {
-          int key = new Random().nextInt();
-          wss.add(new Pair<>(key, out));
+          wss.put(key, out);
           int found = -1;
           while (found < 0) {
-            for (int x = 0; x < wss.size(); x++) {
-              if (wss.get(x).first() != key) {
-                found = x;
+            for (Integer mapElement : wss.keySet()) {
+              if(mapElement!=key) {
+                found= mapElement;
               }
             }
           }
+
           System.out.println("ws created");
-          return MyWebSocketActor.props(wss.remove(found).second());
+          return MyWebSocketActor.props(wss.remove(found));
         }, actorSystem, materializer));
   }
 
@@ -82,5 +89,11 @@ class MyWebSocketActor extends AbstractActor {
         .match(String.class, message -> {System.out.println(message);
           out.tell(message, self());})
         .build();
+  }
+
+  @Override
+  public void postStop() throws Exception {
+    out.tell("exit", self());
+    System.out.println("quit");
   }
 }
