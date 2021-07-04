@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS game
 (
     idx_player_winner BIGINT,
     idx_player_looser BIGINT,
-    date              DATE,
+    date              TIMESTAMP,
     PRIMARY KEY (idx_player_winner, idx_player_looser, date),
     CONSTRAINT fk_game_player_winner FOREIGN KEY (idx_player_winner) REFERENCES player (id_player) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT fk_game_player_looser FOREIGN KEY (idx_player_looser) REFERENCES player (id_player) ON UPDATE CASCADE ON DELETE CASCADE

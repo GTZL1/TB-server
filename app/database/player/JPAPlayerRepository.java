@@ -27,10 +27,20 @@ public class JPAPlayerRepository implements PlayerRepository{
     })), executionContext);
   }
 
+  @Override
   public CompletableFuture<Optional<Player>> getPlayer(String username){
     return CompletableFuture.supplyAsync(() ->
        jpaApi.withTransaction(entityManager -> {
           List players= entityManager.createNativeQuery("select * from player where player.username=\'"+username+"\'", Player.class).getResultList();
+          return players.stream().findFirst();
+        }), executionContext);
+  }
+
+  @Override
+  public CompletableFuture<Optional<Player>> getPlayer(Long idPlayer) {
+    return CompletableFuture.supplyAsync(() ->
+        jpaApi.withTransaction(entityManager -> {
+          List players= entityManager.createNativeQuery("select * from player where player.id_player=\'"+idPlayer+"\'", Player.class).getResultList();
           return players.stream().findFirst();
         }), executionContext);
   }
