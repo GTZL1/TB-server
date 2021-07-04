@@ -63,10 +63,10 @@ public class GameController {
     for(Game g: gameRepository.getPlayerGames(idxPlayer)) {
       Player winner = jpaPlayerRepository.getPlayer(g.getIdGame().getIdxWinner()).get().get();
       String looser = jpaPlayerRepository.getPlayer(g.getIdGame().getIdxLooser()).get().get().getUsername();
-      String date = g.getIdGame().getDate().format(DateTimeFormatter.ISO_LOCAL_DATE);
+      String date = g.getIdGame().getDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy"));
 
       result.add(Json.newObject().put("date", date).put("winner", winner.getUsername())
-      .put("looser", looser).put("issue", (winner.getIdPlayer()==idxPlayer)));
+      .put("looser", looser).put("issue", (winner.getIdPlayer().equals(idxPlayer))));
     }
 
     return ok(Json.toJson(result));
