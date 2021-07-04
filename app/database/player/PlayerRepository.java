@@ -8,4 +8,5 @@ import java.util.concurrent.*;
 public interface PlayerRepository {
   CompletableFuture<Player> addPlayer(Player player);
   CompletableFuture<Optional<Player>> getPlayer(String username);
+  CompletableFuture<Optional<Player>> getPlayer(Long idPlayer);
 }

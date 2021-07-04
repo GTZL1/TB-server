@@ -49,7 +49,7 @@ public class JPAGameRepository implements GameRepository {
     return CompletableFuture.supplyAsync(() ->
         jpaApi.withTransaction(entityManager -> {
           return entityManager.createNativeQuery("select * from game where idx_player_winner=\'"+idxPlayer+"\'"
-                                                  +" or idx_player_looser=\'"+idxPlayer+"\'", Game.class).getResultList();
+                                                  +" or idx_player_looser=\'"+idxPlayer+"\' order by date", Game.class).getResultList();
         }), executionContext);
   }
 }

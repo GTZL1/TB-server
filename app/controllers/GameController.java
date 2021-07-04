@@ -8,11 +8,15 @@ import database.game.Game;
 import database.game.GameId;
 import database.game.JPAGameRepository;
 import database.player.JPAPlayerRepository;
+import database.player.Player;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
+import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 
@@ -45,5 +49,26 @@ public class GameController {
     }
 
     return ok();
+  }
+
+  public Result getGames(Http.Request request) throws ExecutionException, InterruptedException {
+    JsonNode jsonRequest = request.body().asJson();
+    if (jsonRequest == null || !sessionController.verifyIdSession(jsonRequest.findPath("idSession").asLong())) {
+      return badRequest();
+    }
+
+    Long idxPlayer = jsonRequest.findPath("idSession").asLong();
+
+    List<JsonNode> result = new ArrayList<>();
+    for(Game g: gameRepository.getPlayerGames(idxPlayer)) {
+      Player winner = jpaPlayerRepository.getPlayer(g.getIdGame().getIdxWinner()).get().get();
+      String looser = jpaPlayerRepository.getPlayer(g.getIdGame().getIdxLooser()).get().get().getUsername();
+      String date = g.getIdGame().getDate().format(DateTimeFormatter.ISO_LOCAL_DATE);
+
+      result.add(Json.newObject().put("date", date).put("winner", winner.getUsername())
+      .put("looser", looser).put("issue", (winner.getIdPlayer()==idxPlayer)));
+    }
+
+    return ok(Json.toJson(result));
   }
 }
