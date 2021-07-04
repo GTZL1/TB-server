@@ -1,6 +1,7 @@
 package database.deckCard;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -26,5 +27,22 @@ public class DeckCardId implements Serializable {
 
   public Long getIdxCard() {
     return idxCard;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof DeckCardId)) {
+      return false;
+    }
+    DeckCardId that = (DeckCardId) o;
+    return idxDeck.equals(that.idxDeck) && idxCard.equals(that.idxCard);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(idxDeck, idxCard);
   }
 }

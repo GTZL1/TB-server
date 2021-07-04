@@ -5,8 +5,6 @@ import static play.mvc.Results.ok;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import database.card.cards.Card;
 import database.deck.Deck;
 import database.deck.JPADeckRepository;
@@ -76,7 +74,7 @@ public class DeckController {
   }
 
   public Result updatePlayerDeck(Http.Request request)
-      throws ExecutionException, InterruptedException, JsonProcessingException {
+      throws ExecutionException, InterruptedException {
     JsonNode jsonRequest = request.body().asJson();
     if (jsonRequest == null || !sessionController.verifyIdSession(jsonRequest.findPath("idSession").asLong())) {
       return badRequest();

@@ -27,6 +27,7 @@ public class JPAPlayerRepository implements PlayerRepository{
     })), executionContext);
   }
 
+  @Override
   public CompletableFuture<Optional<Player>> getPlayer(String username){
     return CompletableFuture.supplyAsync(() ->
        jpaApi.withTransaction(entityManager -> {
