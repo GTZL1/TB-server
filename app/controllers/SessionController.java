@@ -2,6 +2,7 @@ package controllers;
 
 import static play.mvc.Results.*;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import database.player.*;
@@ -38,7 +39,8 @@ public class SessionController {
     }
 
     Optional<Player> player = playerRepository.getPlayer(name).get();
-    if (player.isPresent()) {
+
+    if (player.isPresent() && BCrypt.verifyer().verify(password.toCharArray(),player.get().getPasswordHash()).verified) {
       Session newSession = new Session();
       newSession.setIdxPlayer(player.get().getIdPlayer());
       try {
