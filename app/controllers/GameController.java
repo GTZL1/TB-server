@@ -57,7 +57,8 @@ public class GameController {
       return badRequest();
     }
 
-    Long idxPlayer = jsonRequest.findPath("idSession").asLong();
+    Long idxPlayer = sessionController
+        .getIdPlayerSession(jsonRequest.findPath("idSession").asLong());
 
     List<JsonNode> result = new ArrayList<>();
     for(Game g: gameRepository.getPlayerGames(idxPlayer)) {
