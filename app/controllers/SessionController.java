@@ -39,20 +39,32 @@ public class SessionController {
     }
 
     Optional<Player> player = playerRepository.getPlayer(name).get();
+    if(player.isEmpty()){
+      result.put("granted", false)
+          .put("idSession", -1)
+          .put("type", "User doesn't exist");
+      return badRequest(result);
+    }
 
-    if (player.isPresent() && BCrypt.verifyer().verify(password.toCharArray(),player.get().getPasswordHash()).verified) {
-      Session newSession = new Session();
-      newSession.setIdxPlayer(player.get().getIdPlayer());
+    if (!BCrypt.verifyer().verify(password.toCharArray(),player.get().getPasswordHash()).verified) {
+      result.put("granted", false)
+          .put("idSession", 2)
+          .put("type", "Wrong password");
+      return badRequest("Wrong password");
+    }
+
+    Session newSession = new Session();
+    newSession.setIdxPlayer(player.get().getIdPlayer());
       try {
         result.put("granted", true)
             .put("idSession", sessionRepository.addSession(newSession).get().getIdSession());
         return ok(result);
       } catch (Exception exception){
-        return badRequest();
+        result.put("granted", false)
+            .put("idSession", -1)
+            .put("type", "User already connected");
+        return badRequest(result);
       }
-    } else {
-      return badRequest();
-    }
   }
 
   public Result logout(Http.Request request) throws ExecutionException, InterruptedException {
