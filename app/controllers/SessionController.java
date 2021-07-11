@@ -26,7 +26,6 @@ public class SessionController {
   }
 
   public Result login(Http.Request request) throws ExecutionException, InterruptedException {
-    // TODO verify player is not already connected
     JsonNode json = request.body().asJson();
     ObjectNode result = Json.newObject();
     if (json == null) {
