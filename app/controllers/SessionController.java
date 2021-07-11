@@ -40,16 +40,10 @@ public class SessionController {
 
     Optional<Player> player = playerRepository.getPlayer(name).get();
     if(player.isEmpty()){
-      result.put("granted", false)
-          .put("idSession", -1)
-          .put("type", "User doesn't exist");
-      return badRequest(result);
+      return badRequest("User doesn't exist");
     }
 
     if (!BCrypt.verifyer().verify(password.toCharArray(),player.get().getPasswordHash()).verified) {
-      result.put("granted", false)
-          .put("idSession", 2)
-          .put("type", "Wrong password");
       return badRequest("Wrong password");
     }
 
@@ -60,10 +54,7 @@ public class SessionController {
             .put("idSession", sessionRepository.addSession(newSession).get().getIdSession());
         return ok(result);
       } catch (Exception exception){
-        result.put("granted", false)
-            .put("idSession", -1)
-            .put("type", "User already connected");
-        return badRequest(result);
+        return badRequest("User already connected");
       }
   }
 
