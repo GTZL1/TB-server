@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import database.player.*;
 import database.session.*;
+import database.system.JPAVersionRepository;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
@@ -14,15 +15,17 @@ import play.libs.Json;
 import play.mvc.*;
 
 public class SessionController {
-
   private final JPAPlayerRepository playerRepository;
   private final JPASessionRepository sessionRepository;
+  private final JPAVersionRepository versionRepository;
 
   @Inject
   public SessionController(JPAPlayerRepository playerRepository,
-      JPASessionRepository sessionRepository) {
+      JPASessionRepository sessionRepository,
+      JPAVersionRepository versionRepository) {
     this.playerRepository = playerRepository;
     this.sessionRepository = sessionRepository;
+    this.versionRepository = versionRepository;
   }
 
   public Result login(Http.Request request) throws ExecutionException, InterruptedException {
@@ -33,6 +36,7 @@ public class SessionController {
     }
     String name = json.findPath("username").textValue();
     String password = json.findPath("password").textValue();
+    Double clientVersion = json.findPath("version").asDouble();
     if (name == null || password == null) {
       throw new AuthentificationFailedException();
     }
@@ -44,6 +48,10 @@ public class SessionController {
 
     if (!BCrypt.verifyer().verify(password.toCharArray(),player.get().getPasswordHash()).verified) {
       return badRequest("Wrong password");
+    }
+
+    if(!versionRepository.getVersionNumber().equals(clientVersion)){
+      return badRequest("Wrong client version");
     }
 
     Session newSession = new Session();

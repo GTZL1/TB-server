@@ -85,10 +85,18 @@ CREATE TABLE IF NOT EXISTS deck_card
     CONSTRAINT fk_deck_deck_card FOREIGN KEY (idx_deck) REFERENCES deck (id_deck) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT fk_card_deck_card FOREIGN KEY (idx_card) REFERENCES card (id_card) ON UPDATE CASCADE ON DELETE CASCADE
 );
+CREATE TABLE IF NOT EXISTS version_system
+(
+	id_version SERIAL PRIMARY KEY,
+	version_number REAL NOT NULL,
+	CONSTRAINT chk_one_version_only CHECK (id_version = 1)
+);
 
 --------------------------------
 -- Insertions
 --------------------------------
+INSERT INTO version_system(version_number)
+values (1.1);
 INSERT INTO power (name)
 values ('PrecisionStrike'),
        ('DistanceStrike'),
