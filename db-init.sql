@@ -120,27 +120,33 @@ values ((select id_card from card where card.name='Ahsoka Tano'),(select id_powe
 
 INSERT INTO card (name, life_points, attack_points, max_number_deck)
 values ('James Bond', 6, 5, 1),
-       ('Vanasha', 5, 5, 1);
+       ('Vanasha', 5, 5, 1),
+	   ('Agent 47', 4, 7, 1);
 INSERT INTO unit_card(idx_card)
 VALUES ((select id_card from card where card.name='James Bond')),
-       ((select id_card from card where card.name='Vanasha'));
+       ((select id_card from card where card.name='Vanasha')),
+	   ((select id_card from card where card.name='Agent 47'));
 INSERT INTO spy_card(idx_card)
 VALUES ((select id_card from card where card.name='James Bond')),
-       ((select id_card from card where card.name='Vanasha'));
+       ((select id_card from card where card.name='Vanasha')),
+	   ((select id_card from card where card.name='Agent 47'));
 
 INSERT INTO card (name, life_points, attack_points, max_number_deck)
 values ('Avatar gunship', 5, 6, 2),
        ('Black Pearl', 7, 4, 1),
+	   ('Rocinante', 6, 5, 1),
        ('Jedi starfighter', 4, 8, 1),
        ('Glinthawk', 4, 3, 3);
 INSERT INTO unit_card(idx_card)
 VALUES ((select id_card from card where card.name='Avatar gunship')),
        ((select id_card from card where card.name='Black Pearl')),
+	   ((select id_card from card where card.name='Rocinante')),
        ((select id_card from card where card.name='Jedi starfighter')),
        ((select id_card from card where card.name='Glinthawk'));
 INSERT INTO vehicle_card(idx_card)
 VALUES ((select id_card from card where card.name='Avatar gunship')),
        ((select id_card from card where card.name='Black Pearl')),
+	   ((select id_card from card where card.name='Rocinante')),
        ((select id_card from card where card.name='Jedi starfighter')),
        ((select id_card from card where card.name='Glinthawk'));
 
@@ -157,6 +163,7 @@ values ('Chloe Frazer', 8, 6, 1),
        ('Kirov', 2, 10, 2),
        ('Sombra', 5, 5, 1),
 	   ('Ikrie', 6, 4, 1),
+	   ('Black Widow', 4, 9, 1),
        ('Asari warrior', 4, 8, 3),
        ('Valyrian dragon', 7, 7, 2),
        ('Clicker', 4, 6, 2),
@@ -176,6 +183,7 @@ VALUES ((select id_card from card where card.name='Chloe Frazer')),
        ((select id_card from card where card.name='Kirov')),
        ((select id_card from card where card.name='Sombra')),
 	   ((select id_card from card where card.name='Ikrie')),
+	   ((select id_card from card where card.name='Black Widow')),
        ((select id_card from card where card.name='Asari warrior')),
        ((select id_card from card where card.name='Valyrian dragon')),
        ((select id_card from card where card.name='Clicker')),

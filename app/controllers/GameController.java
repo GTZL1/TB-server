@@ -35,8 +35,9 @@ public class GameController {
 
   public Result addNewGame(Http.Request request) throws ExecutionException, InterruptedException {
     JsonNode jsonRequest = request.body().asJson();
+
     if (jsonRequest == null || !sessionController.verifyIdSession(jsonRequest.findPath("idSession").asLong())) {
-      return badRequest();
+      return badRequest("Session not valid");
     }
 
     LocalDateTime date = LocalDateTime.parse(jsonRequest.findPath("date").asText(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
@@ -46,6 +47,8 @@ public class GameController {
         date);
     if(!gameRepository.gameAlreadyExists(new Game(idGame))){
       gameRepository.addnewGame(new Game(idGame));
+    } else {
+      return badRequest("Problem in deletion");
     }
 
     return ok();

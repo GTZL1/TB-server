@@ -1,5 +1,6 @@
 package controllers;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import database.player.JPAPlayerRepository;
 import database.player.Player;
 import java.util.concurrent.ExecutionException;
@@ -43,7 +44,7 @@ public class AccountController extends Controller {
     } else {
       Player newPlayer= new Player();
       newPlayer.setUsername(player.username);
-      newPlayer.setPasswordHash(player.password1);
+      newPlayer.setPasswordHash(BCrypt.withDefaults().hashToString(8, player.password1.toCharArray()));
       playerRepository.addPlayer(newPlayer);
       return ok();
     }

@@ -2,6 +2,7 @@ package controllers;
 
 import static play.mvc.Results.*;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import database.player.*;
@@ -25,7 +26,6 @@ public class SessionController {
   }
 
   public Result login(Http.Request request) throws ExecutionException, InterruptedException {
-    // TODO verify player is not already connected
     JsonNode json = request.body().asJson();
     ObjectNode result = Json.newObject();
     if (json == null) {
@@ -38,19 +38,23 @@ public class SessionController {
     }
 
     Optional<Player> player = playerRepository.getPlayer(name).get();
-    if (player.isPresent()) {
-      Session newSession = new Session();
-      newSession.setIdxPlayer(player.get().getIdPlayer());
+    if(player.isEmpty()){
+      return badRequest("User doesn't exist");
+    }
+
+    if (!BCrypt.verifyer().verify(password.toCharArray(),player.get().getPasswordHash()).verified) {
+      return badRequest("Wrong password");
+    }
+
+    Session newSession = new Session();
+    newSession.setIdxPlayer(player.get().getIdPlayer());
       try {
         result.put("granted", true)
             .put("idSession", sessionRepository.addSession(newSession).get().getIdSession());
         return ok(result);
       } catch (Exception exception){
-        return badRequest();
+        return badRequest("User already connected");
       }
-    } else {
-      return badRequest();
-    }
   }
 
   public Result logout(Http.Request request) throws ExecutionException, InterruptedException {
