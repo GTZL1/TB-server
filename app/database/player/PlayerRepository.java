@@ -6,7 +6,7 @@ import java.util.concurrent.*;
 
 @ImplementedBy(JPAPlayerRepository.class)
 public interface PlayerRepository {
-  CompletableFuture<Player> addPlayer(Player player);
-  CompletableFuture<Optional<Player>> getPlayer(String username);
-  CompletableFuture<Optional<Player>> getPlayer(Long idPlayer);
+  Player addPlayer(Player player) throws ExecutionException, InterruptedException;
+  Optional<Player> getPlayer(String username) throws ExecutionException, InterruptedException;
+  Optional<Player> getPlayer(Long idPlayer) throws ExecutionException, InterruptedException;
 }
