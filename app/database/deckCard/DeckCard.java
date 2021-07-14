@@ -14,6 +14,14 @@ public class DeckCard {
   @Column(name = "quantity")
   private short quantity;
 
+  public DeckCard(DeckCardId idDeckCard, short quantity) {
+    this.idDeckCard = idDeckCard;
+    this.quantity = quantity;
+  }
+
+  public DeckCard() {
+  }
+
   public Long getIdxDeck() {
     return idDeckCard.getIdxDeck();
   }
