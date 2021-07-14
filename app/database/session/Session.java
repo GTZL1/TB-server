@@ -18,6 +18,14 @@ public class Session {
   @Column(name="idx_player")
   private Long idxPlayer;
 
+  public Session(Long idSession, Long idxPlayer) {
+    this.idSession = idSession;
+    this.idxPlayer = idxPlayer;
+  }
+
+  public Session() {
+  }
+
   public void setIdxPlayer(Long idxPlayer) {
     this.idxPlayer = idxPlayer;
   }

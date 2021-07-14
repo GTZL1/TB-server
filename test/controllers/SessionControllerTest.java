@@ -21,9 +21,8 @@ import org.mockito.AdditionalAnswers;
 import play.libs.Json;
 import play.mvc.Http.Request;
 import play.mvc.Http.RequestBuilder;
-import play.test.WithApplication;
 
-public class SessionControllerTest extends WithApplication {
+public class SessionControllerTest {
   JPAVersionRepository versionRepository= mock(JPAVersionRepository.class);
   JPASessionRepository sessionRepository = mock(JPASessionRepository.class);
   JPAPlayerRepository playerRepository = mock(JPAPlayerRepository.class);

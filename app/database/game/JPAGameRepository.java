@@ -21,12 +21,12 @@ public class JPAGameRepository implements GameRepository {
   }
 
   @Override
-  public CompletableFuture<Game> addnewGame(Game game) {
+  public Game addnewGame(Game game) throws ExecutionException, InterruptedException {
     return supplyAsync(() ->
         (jpaApi.withTransaction(entityManager -> {
           entityManager.persist(game);
           return game;
-        })), executionContext);
+        })), executionContext).get();
   }
 
   @Override

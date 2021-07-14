@@ -1,19 +1,16 @@
 package database.card.cards;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
 
 @Entity
-//@Table(name="unit_card")
-public class UnitCard extends Card{
-  /*@Column(name = "idx_card")
-  private Long idxCard;
 
-  public Long getIdxCard() {
-    return idxCard;
-  }*/
+public class UnitCard extends Card{
+
+  public UnitCard(Long idCard, String name, int lifePoints, int attackPoints, int maxNumberInDeck) {
+    super(idCard, name, lifePoints, attackPoints, maxNumberInDeck);
+  }
+
+  public UnitCard() {
+    super();
+  }
 }
