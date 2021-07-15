@@ -36,7 +36,7 @@ public class SessionController {
     }
     String name = json.findPath("username").textValue();
     String password = json.findPath("password").textValue();
-    Double clientVersion = json.findPath("version").asDouble();
+    String clientVersion = json.findPath("version").asText();
     if (name == null || password == null) {
       throw new AuthenticationFailedException();
     }
@@ -51,7 +51,7 @@ public class SessionController {
     }
 
     if(!versionRepository.getVersionNumber().equals(clientVersion)){
-      return badRequest("Wrong client version");
+      return badRequest("Wrong client version, you use "+clientVersion+" instead of "+versionRepository.getVersionNumber());
     }
 
     Session newSession = new Session();

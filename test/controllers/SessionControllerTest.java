@@ -32,7 +32,7 @@ public class SessionControllerTest {
   public void loginWithRightInfosWork() throws ExecutionException, InterruptedException {
     when(playerRepository.getPlayer("aloy")).thenReturn(Optional.of(new Player(1L, "aloy",
         BCrypt.withDefaults().hashToString(8, "chieftain".toCharArray()))));
-    when(versionRepository.getVersionNumber()).thenReturn(1.1);
+    when(versionRepository.getVersionNumber()).thenReturn("1.1");
     when(sessionRepository.addSession(any(Session.class))).then(AdditionalAnswers.returnsFirstArg());
     Request httpRequest = new RequestBuilder().method("GET").uri("/login").bodyJson(
         Json.newObject().put("username", "aloy").put("password", "chieftain").put("version", 1.1)).build();
@@ -45,7 +45,7 @@ public class SessionControllerTest {
       throws ExecutionException, InterruptedException {
     when(playerRepository.getPlayer("aloy")).thenReturn(Optional.of(new Player(1L, "aloy",
         BCrypt.withDefaults().hashToString(8, "chieftain".toCharArray()))));
-    when(versionRepository.getVersionNumber()).thenReturn(1.1);
+    when(versionRepository.getVersionNumber()).thenReturn("1.1");
     when(sessionRepository.addSession(any(Session.class))).then(AdditionalAnswers.returnsFirstArg());
 
     Request wrongPwdRequest = new RequestBuilder().method("GET").uri("/login").bodyJson(
@@ -62,7 +62,7 @@ public class SessionControllerTest {
     when(playerRepository.getPlayer("aloy")).thenReturn(Optional.of(new Player(1L, "aloy",
         BCrypt.withDefaults().hashToString(8, "chieftain".toCharArray()))));
     when(playerRepository.getPlayer("ikrie")).thenReturn(Optional.empty());
-    when(versionRepository.getVersionNumber()).thenReturn(1.1);
+    when(versionRepository.getVersionNumber()).thenReturn("1.1");
     when(sessionRepository.addSession(any(Session.class))).then(AdditionalAnswers.returnsFirstArg());
 
     Request httpRequest = new RequestBuilder().method("GET").uri("/login").bodyJson(
@@ -75,7 +75,7 @@ public class SessionControllerTest {
   public void userCannotLoginTwice() throws ExecutionException, InterruptedException {
     when(playerRepository.getPlayer("aloy")).thenReturn(Optional.of(new Player(1L, "aloy",
         BCrypt.withDefaults().hashToString(8, "chieftain".toCharArray()))));
-    when(versionRepository.getVersionNumber()).thenReturn(1.1);
+    when(versionRepository.getVersionNumber()).thenReturn("1.1");
     when(sessionRepository.addSession(any(Session.class))).then(AdditionalAnswers.returnsFirstArg());
 
     Request httpRequest = new RequestBuilder().method("GET").uri("/login").bodyJson(

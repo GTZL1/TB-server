@@ -5,5 +5,5 @@ import java.util.concurrent.ExecutionException;
 
 @ImplementedBy(JPAVersionRepository.class)
 public interface VersionRepository {
-  Double getVersionNumber() throws ExecutionException, InterruptedException;
+  String getVersionNumber() throws ExecutionException, InterruptedException;
 }
