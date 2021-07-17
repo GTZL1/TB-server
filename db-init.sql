@@ -98,6 +98,8 @@ CREATE TABLE IF NOT EXISTS version_system
 --------------------------------
 INSERT INTO version_system(version_number, sub_version_number)
 values (1,1);
+INSERT INTO player (username, password_hash)
+values ('ANNA', 'ellipsis');
 INSERT INTO power (name)
 values ('PrecisionStrike'),
        ('DistanceStrike'),
