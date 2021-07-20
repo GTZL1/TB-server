@@ -18,6 +18,7 @@ public class Session {
   @Column(name="idx_player")
   private Long idxPlayer;
 
+  //used for tests only
   public Session(Long idSession, Long idxPlayer) {
     this.idSession = idSession;
     this.idxPlayer = idxPlayer;
