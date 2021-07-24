@@ -30,6 +30,17 @@ public abstract class Card {
   @Column(name = "max_number_deck")
   private int maxNumberInDeck;
 
+  public Card(Long idCard, String name, int lifePoints, int attackPoints, int maxNumberInDeck) {
+    this.idCard = idCard;
+    this.name = name;
+    this.lifePoints = lifePoints;
+    this.attackPoints = attackPoints;
+    this.maxNumberInDeck = maxNumberInDeck;
+  }
+
+  public Card() {
+  }
+
   public void setName(String name) {
     this.name = name;
   }

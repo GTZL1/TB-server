@@ -32,16 +32,16 @@ public class SessionController {
     JsonNode json = request.body().asJson();
     ObjectNode result = Json.newObject();
     if (json == null) {
-      throw new AuthentificationFailedException();
+      throw new AuthenticationFailedException();
     }
     String name = json.findPath("username").textValue();
     String password = json.findPath("password").textValue();
-    Double clientVersion = json.findPath("version").asDouble();
+    String clientVersion = json.findPath("version").asText();
     if (name == null || password == null) {
-      throw new AuthentificationFailedException();
+      throw new AuthenticationFailedException();
     }
 
-    Optional<Player> player = playerRepository.getPlayer(name).get();
+    Optional<Player> player = playerRepository.getPlayer(name);
     if(player.isEmpty()){
       return badRequest("User doesn't exist");
     }
@@ -51,14 +51,14 @@ public class SessionController {
     }
 
     if(!versionRepository.getVersionNumber().equals(clientVersion)){
-      return badRequest("Wrong client version");
+      return badRequest("Wrong client version, you use "+clientVersion+" instead of "+versionRepository.getVersionNumber());
     }
 
     Session newSession = new Session();
     newSession.setIdxPlayer(player.get().getIdPlayer());
       try {
         result.put("granted", true)
-            .put("idSession", sessionRepository.addSession(newSession).get().getIdSession());
+            .put("idSession", sessionRepository.addSession(newSession).getIdSession());
         return ok(result);
       } catch (Exception exception){
         return badRequest("User already connected");
@@ -68,7 +68,7 @@ public class SessionController {
   public Result logout(Http.Request request) throws ExecutionException, InterruptedException {
     JsonNode json = request.body().asJson();
     if (json == null) {
-      throw new AuthentificationFailedException();
+      throw new AuthenticationFailedException();
     }
 
     Long idSession=json.findPath("idSession").asLong();
@@ -82,10 +82,10 @@ public class SessionController {
   }
 
   public boolean verifyIdSession(Long idSession) throws ExecutionException, InterruptedException {
-    return sessionRepository.getSession(idSession).get().isPresent();
+    return sessionRepository.getSession(idSession).isPresent();
   }
 
   public Long getIdPlayerSession(Long idSession) throws ExecutionException, InterruptedException {
-    return sessionRepository.getSession(idSession).get().get().getIdxPlayer();
+    return sessionRepository.getSession(idSession).get().getIdxPlayer();
   }
 }

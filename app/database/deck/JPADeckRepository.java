@@ -20,12 +20,12 @@ public class JPADeckRepository implements DeckRepository{
   }
 
   @Override
-  public CompletableFuture<Deck> addNewDeck(Deck deck) {
+  public Deck addNewDeck(Deck deck) throws ExecutionException, InterruptedException {
     return supplyAsync(() ->
         (jpaApi.withTransaction(entityManager -> {
           entityManager.persist(deck);
           return deck;
-        })), executionContext);
+        })), executionContext).get();
   }
 
   @Override

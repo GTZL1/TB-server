@@ -96,7 +96,7 @@ public class DeckController {
     } else if (idDeck<0) { //new decks id always equal -1
       Deck newDeck = new Deck();
       newDeck.setPlayerAndName(idxPlayer, deckName);
-      Long newIdDeck=jpaDeckRepository.addNewDeck(newDeck).get().getIdDeck();
+      Long newIdDeck=jpaDeckRepository.addNewDeck(newDeck).getIdDeck();
 
       //return true new id
       if(!newIdDeck.equals(idDeck)){

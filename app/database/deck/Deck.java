@@ -21,6 +21,15 @@ public class Deck {
   @Column(name = "name")
   private String name;
 
+  public Deck(Long idDeck, Long idxPlayer, String name) {
+    this.idDeck = idDeck;
+    this.idxPlayer = idxPlayer;
+    this.name = name;
+  }
+
+  public Deck() {
+  }
+
   public Long getIdDeck() {
     return idDeck;
   }

@@ -16,7 +16,8 @@ libraryDependencies += "com.typesafe.akka" %% "akka-stream" % akkaVersion
 libraryDependencies += "com.typesafe.akka" %% "akka-http-jackson" % akkaHttpVersion
 libraryDependencies += "com.typesafe.akka" %% "akka-http" % akkaHttpVersion
 libraryDependencies ++= Seq(javaJdbc, javaWs, javaJpa, evolutions, javaForms, guice,
-  "org.hibernate" % "hibernate-core" % "5.4.27.Final", "at.favre.lib" % "bcrypt" % "0.9.0")
+  "org.hibernate" % "hibernate-core" % "5.4.27.Final", "at.favre.lib" % "bcrypt" % "0.9.0",
+  "org.mockito" % "mockito-core" % "3.11.2")
 libraryDependencies += "org.postgresql" % "postgresql" % "42.2.19"
 
 PlayKeys.externalizeResourcesExcludes += baseDirectory.value / "conf" / "META-INF" / "persistence.xml"

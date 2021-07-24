@@ -3,17 +3,10 @@ package controllers;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
-import akka.actor.PoisonPill;
 import akka.actor.Props;
-import akka.japi.Pair;
 import akka.stream.Materializer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.inject.Inject;
 import play.libs.streams.ActorFlow;
@@ -21,7 +14,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.WebSocket;
 
-public class HomeController extends Controller {
+public class WebSocketController extends Controller {
 
   private final ActorSystem actorSystem;
   private final Materializer materializer;
@@ -29,7 +22,7 @@ public class HomeController extends Controller {
   private final Map<Integer, ActorRef> wss = new ConcurrentHashMap<>();
 
   @Inject
-  public HomeController(ActorSystem actorSystem, Materializer materializer) {
+  public WebSocketController(ActorSystem actorSystem, Materializer materializer) {
     this.actorSystem = actorSystem;
     this.materializer = materializer;
   }
@@ -49,7 +42,7 @@ public class HomeController extends Controller {
           }
 
           System.out.println("ws created");
-          return MyWebSocketActor.props(wss.remove(found));
+          return WebSocketActor.props(wss.remove(found));
         }, actorSystem, materializer));
   }
 
@@ -62,20 +55,20 @@ public class HomeController extends Controller {
     return ok(views.html.home.render());
   }
 
-  public Result rules() throws InterruptedException {
+  public Result rules() {
     return ok(views.html.rules.render());
   }
 }
 
-class MyWebSocketActor extends AbstractActor {
+class WebSocketActor extends AbstractActor {
 
   public static Props props(ActorRef out) {
-    return Props.create(MyWebSocketActor.class, out);
+    return Props.create(WebSocketActor.class, out);
   }
 
   private ActorRef out;
 
-  public MyWebSocketActor(ActorRef out) {
+  public WebSocketActor(ActorRef out) {
     this.out = out;
   }
 

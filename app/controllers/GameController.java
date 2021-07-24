@@ -41,8 +41,8 @@ public class GameController {
 
     LocalDateTime date = LocalDateTime.parse(jsonRequest.findPath("date").asText(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
-    GameId idGame = new GameId(jpaPlayerRepository.getPlayer(jsonRequest.findPath("winner").asText()).get().get().getIdPlayer(),
-        jpaPlayerRepository.getPlayer(jsonRequest.findPath("looser").asText()).get().get().getIdPlayer(),
+    GameId idGame = new GameId(jpaPlayerRepository.getPlayer(jsonRequest.findPath("winner").asText()).get().getIdPlayer(),
+        jpaPlayerRepository.getPlayer(jsonRequest.findPath("looser").asText()).get().getIdPlayer(),
         date);
     if(!gameRepository.gameAlreadyExists(new Game(idGame))){
       gameRepository.addnewGame(new Game(idGame));
@@ -64,8 +64,8 @@ public class GameController {
 
     List<JsonNode> result = new ArrayList<>();
     for(Game g: gameRepository.getPlayerGames(idxPlayer)) {
-      Player winner = jpaPlayerRepository.getPlayer(g.getIdGame().getIdxWinner()).get().get();
-      String looser = jpaPlayerRepository.getPlayer(g.getIdGame().getIdxLooser()).get().get().getUsername();
+      Player winner = jpaPlayerRepository.getPlayer(g.getIdGame().getIdxWinner()).get();
+      String looser = jpaPlayerRepository.getPlayer(g.getIdGame().getIdxLooser()).get().getUsername();
       String date = g.getIdGame().getDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy"));
 
       result.add(Json.newObject().put("date", date).put("winner", winner.getUsername())

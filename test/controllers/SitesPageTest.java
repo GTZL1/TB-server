@@ -12,7 +12,7 @@ import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.GET;
 import static play.test.Helpers.route;
 
-public class HomeControllerTest extends WithApplication {
+public class SitesPageTest extends WithApplication {
 
     @Override
     protected Application provideApplication() {
@@ -20,7 +20,7 @@ public class HomeControllerTest extends WithApplication {
     }
 
     @Test
-    public void testIndex() {
+    public void testIndexPage() {
         Http.RequestBuilder request = new Http.RequestBuilder()
                 .method(GET)
                 .uri("/");
@@ -29,4 +29,23 @@ public class HomeControllerTest extends WithApplication {
         assertEquals(OK, result.status());
     }
 
+    @Test
+    public void testRules() {
+        Http.RequestBuilder request = new Http.RequestBuilder()
+            .method(GET)
+            .uri("/rules");
+
+        Result result = route(app, request);
+        assertEquals(OK, result.status());
+    }
+
+    @Test
+    public void testNewAccountPage() {
+        Http.RequestBuilder request = new Http.RequestBuilder()
+            .method(GET)
+            .uri("/newAccount");
+
+        Result result = route(app, request);
+        assertEquals(OK, result.status());
+    }
 }

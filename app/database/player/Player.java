@@ -21,6 +21,17 @@ public class Player {
   @Column(name="password_hash")
   private String passwordHash;
 
+  public Player() {
+
+  }
+
+  //used only in tests
+  public Player(Long idPlayer, String username, String passwordHash) {
+    this.idPlayer = idPlayer;
+    this.username = username;
+    this.passwordHash = passwordHash;
+  }
+
   public Long getIdPlayer(){
     return idPlayer;
   }

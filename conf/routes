@@ -3,15 +3,15 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET        /                    controllers.HomeController.index
-GET        /plop                controllers.HomeController.socket
-GET        /rules               controllers.HomeController.rules
+GET        /                    controllers.WebSocketController.index
+GET        /plop                controllers.WebSocketController.socket
+GET        /rules               controllers.WebSocketController.rules
 GET        /newAccount          controllers.AccountController.newAccount(request: play.mvc.Http.Request)
 POST /newPlayer controllers.AccountController.saveNewPlayer(request: play.mvc.Http.Request)
 GET /login controllers.SessionController.login(request: play.mvc.Http.Request)
 GET /logout controllers.SessionController.logout(request: play.mvc.Http.Request)
 GET /cards controllers.CardController.getCards(request: play.mvc.Http.Request)
-GET /powers controllers.PowerController.getPowers(request: play.mvc.Http.Request)
+#GET /powers controllers.PowerController.getPowers(request: play.mvc.Http.Request)
 GET /decks controllers.DeckController.getPlayerDeck(request: play.mvc.Http.Request)
 POST /decks controllers.DeckController.updatePlayerDeck(request: play.mvc.Http.Request)
 DELETE /decks controllers.DeckController.removePlayerDeck(request: play.mvc.Http.Request)

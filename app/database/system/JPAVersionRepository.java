@@ -19,7 +19,7 @@ public class JPAVersionRepository implements VersionRepository {
   }
 
   @Override
-  public Double getVersionNumber() throws ExecutionException, InterruptedException {
+  public String getVersionNumber() throws ExecutionException, InterruptedException {
     return searchVersion().get().stream().findFirst().get().getVersionNumber();
   }
 

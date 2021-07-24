@@ -19,16 +19,27 @@ public class JPAPlayerRepository implements PlayerRepository{
   }
 
   @Override
-  public CompletableFuture<Player> addPlayer(Player player) {
+  public Player addPlayer(Player player) throws ExecutionException, InterruptedException {
     return CompletableFuture.supplyAsync(() ->
     (jpaApi.withTransaction(entityManager -> {
       entityManager.persist(player);
       return player;
-    })), executionContext);
+    })), executionContext).get();
   }
 
   @Override
-  public CompletableFuture<Optional<Player>> getPlayer(String username){
+  public Optional<Player> getPlayer(String username)
+      throws ExecutionException, InterruptedException {
+    return fetchPlayer(username).get();
+  }
+
+  @Override
+  public Optional<Player> getPlayer(Long idPlayer)
+      throws ExecutionException, InterruptedException {
+    return fetchPlayer(idPlayer).get();
+  }
+
+  private CompletableFuture<Optional<Player>> fetchPlayer(String username) {
     return CompletableFuture.supplyAsync(() ->
        jpaApi.withTransaction(entityManager -> {
           List players= entityManager.createNativeQuery("select * from player where player.username=\'"+username+"\'", Player.class).getResultList();
@@ -36,8 +47,7 @@ public class JPAPlayerRepository implements PlayerRepository{
         }), executionContext);
   }
 
-  @Override
-  public CompletableFuture<Optional<Player>> getPlayer(Long idPlayer) {
+  private CompletableFuture<Optional<Player>> fetchPlayer(Long idPlayer) {
     return CompletableFuture.supplyAsync(() ->
         jpaApi.withTransaction(entityManager -> {
           List players= entityManager.createNativeQuery("select * from player where player.id_player=\'"+idPlayer+"\'", Player.class).getResultList();
@@ -47,6 +57,6 @@ public class JPAPlayerRepository implements PlayerRepository{
 
   public boolean existsPlayerUsername(String username)
       throws ExecutionException, InterruptedException {
-    return getPlayer(username).get().isPresent();
+    return getPlayer(username).isPresent();
   }
 }

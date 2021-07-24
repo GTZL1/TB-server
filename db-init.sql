@@ -88,15 +88,18 @@ CREATE TABLE IF NOT EXISTS deck_card
 CREATE TABLE IF NOT EXISTS version_system
 (
 	id_version SERIAL PRIMARY KEY,
-	version_number REAL NOT NULL,
+	version_number SMALLINT NOT NULL,
+	sub_version_number SMALLINT NOT NULL,
 	CONSTRAINT chk_one_version_only CHECK (id_version = 1)
 );
 
 --------------------------------
 -- Insertions
 --------------------------------
-INSERT INTO version_system(version_number)
-values (1.1);
+INSERT INTO version_system(version_number, sub_version_number)
+values (1,1);
+INSERT INTO player (username, password_hash)
+values ('ANNA', 'ellipsis');
 INSERT INTO power (name)
 values ('PrecisionStrike'),
        ('DistanceStrike'),

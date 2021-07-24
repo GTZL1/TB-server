@@ -16,9 +16,12 @@ public class Version {
   private Long idVersion;
 
   @Column(name="version_number")
-  private Double versionNumber;
+  private Short versionNumber;
 
-  public Double getVersionNumber() {
-    return versionNumber;
+  @Column(name="sub_version_number")
+  private Short subVersionNumber;
+
+  public String getVersionNumber() {
+    return versionNumber.toString()+"."+subVersionNumber.toString();
   }
 }

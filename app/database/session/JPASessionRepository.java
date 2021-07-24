@@ -6,6 +6,7 @@ import database.DatabaseExecutionContext;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
 import play.db.jpa.JPAApi;
 
@@ -20,16 +21,21 @@ public class JPASessionRepository implements SessionRepository {
   }
 
   @Override
-  public CompletableFuture<Session> addSession(Session session) {
+  public Session addSession(Session session) throws ExecutionException, InterruptedException {
     return supplyAsync(() ->
         (jpaApi.withTransaction(entityManager -> {
           entityManager.persist(session);
           return session;
-        })), executionContext);
+        })), executionContext).get();
   }
 
   @Override
-  public CompletableFuture<Optional<Session>> getSession(Long idSession) {
+  public Optional<Session> getSession(Long idSession)
+      throws ExecutionException, InterruptedException {
+    return fetchSession(idSession).get();
+  }
+
+  private CompletableFuture<Optional<Session>> fetchSession(Long idSession) {
     return CompletableFuture.supplyAsync(() ->
         jpaApi.withTransaction(entityManager -> {
           List sessions= entityManager.createNativeQuery("select * from session where session.id_session=\'"+idSession+"\'", Session.class).getResultList();
