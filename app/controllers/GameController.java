@@ -46,8 +46,6 @@ public class GameController {
         date);
     if(!gameRepository.gameAlreadyExists(new Game(idGame))){
       gameRepository.addnewGame(new Game(idGame));
-    } else {
-      return badRequest("Problem in deletion");
     }
 
     return ok();
