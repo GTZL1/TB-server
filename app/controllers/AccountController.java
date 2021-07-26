@@ -11,6 +11,9 @@ import play.i18n.Messages;
 import play.i18n.MessagesApi;
 import play.mvc.*;
 
+/**
+ * Execute requests to create new accounts
+ */
 public class AccountController extends Controller {
 
   private final FormFactory formFactory;
@@ -25,12 +28,24 @@ public class AccountController extends Controller {
     this.playerRepository = playerRepository;
   }
 
+  /**
+   * Display site page with account creation form
+   * @param request  the request to link with messages
+   * @return  site page
+   */
   public Result newAccount(Http.Request request) {
     Form<PlayerForm> playerForm = formFactory.form(PlayerForm.class);
     Messages messages = messagesApi.preferred(request);
     return ok(views.html.newAccount.render(playerForm, messages));
   }
 
+  /**
+   * Store a new account in the database
+   * @param request  request with new account informations
+   * @return       result of the operation
+   * @throws ExecutionException if a problem happens accessing the database
+   * @throws InterruptedException if a problem happens accessing the database
+   */
   public Result saveNewPlayer(Http.Request request) throws ExecutionException, InterruptedException {
     Form<PlayerForm> playerForm = formFactory.form(PlayerForm.class).withDirectFieldAccess(true).bindFromRequest(request);
     if(playerForm.hasErrors()){

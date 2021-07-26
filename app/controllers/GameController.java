@@ -19,6 +19,9 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 
+/**
+ * Execute requests to add and get games
+ */
 public class GameController {
   private final JPAGameRepository gameRepository;
   private final SessionController sessionController;
@@ -32,6 +35,13 @@ public class GameController {
     this.jpaPlayerRepository = jpaPlayerRepository;
   }
 
+  /**
+   * Register, in one copy only, a game in the database
+   * @param request idSession of client sending the request, with 2 usernames and game issue
+   * @return ok if success, badRequest if idSession not valid
+   * @throws ExecutionException if a problem happens accessing the database
+   * @throws InterruptedException if a problem happens accessing the database
+   */
   public Result addNewGame(Http.Request request) throws ExecutionException, InterruptedException {
     JsonNode jsonRequest = request.body().asJson();
 
@@ -51,6 +61,13 @@ public class GameController {
     return ok();
   }
 
+  /**
+   * Fetch all games played by a player
+   * @param request idSession of client sending the request
+   * @return ok if success, badRequest if idSession not valid
+   * @throws ExecutionException if a problem happens accessing the database
+   * @throws InterruptedException if a problem happens accessing the database
+   */
   public Result getGames(Http.Request request) throws ExecutionException, InterruptedException {
     JsonNode jsonRequest = request.body().asJson();
     if (jsonRequest == null || !sessionController.verifyIdSession(jsonRequest.findPath("idSession").asLong())) {

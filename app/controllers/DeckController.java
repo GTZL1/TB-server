@@ -3,7 +3,6 @@ package controllers;
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import database.card.cards.Card;
 import database.deck.Deck;
@@ -21,6 +20,9 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 
+/**
+ * Execute requests to get, update and delete decks
+ */
 public class DeckController {
 
   private final JPADeckRepository jpaDeckRepository;
@@ -38,6 +40,13 @@ public class DeckController {
     this.sessionController = sessionController;
   }
 
+  /**
+   * Return a player's serialized decks
+   * @param request idSession to respond
+   * @return player's serialized decks
+   * @throws ExecutionException if a problem happens accessing the database
+   * @throws InterruptedException if a problem happens accessing the database
+   */
   public Result getPlayerDeck(Http.Request request)
       throws ExecutionException, InterruptedException {
     JsonNode json = request.body().asJson();
@@ -73,6 +82,13 @@ public class DeckController {
     return ok(Json.toJson(result));
   }
 
+  /**
+   * Register a new deck if not existing, update its cards otherwise
+   * @param request idSession of client sending the request
+   * @return ok if all is good, badRequest if idSession not valid
+   * @throws ExecutionException if a problem happens accessing the database
+   * @throws InterruptedException if a problem happens accessing the database
+   */
   public Result updatePlayerDeck(Http.Request request)
       throws ExecutionException, InterruptedException {
     JsonNode jsonRequest = request.body().asJson();
@@ -93,7 +109,7 @@ public class DeckController {
     //if deck exists already
     if(playerDeck.isPresent() && !playerDeck.get().getName().equals(deckName)) {
       jpaDeckRepository.changeDeckName(idDeck, deckName);
-    } else if (idDeck<0) { //new decks id always equal -1
+    } else if (idDeck<0) { //if deck doesn't exist, new decks id always equal -1
       Deck newDeck = new Deck();
       newDeck.setPlayerAndName(idxPlayer, deckName);
       Long newIdDeck=jpaDeckRepository.addNewDeck(newDeck).getIdDeck();
@@ -107,8 +123,10 @@ public class DeckController {
     JsonNode cards= jsonDeck.get("cards");
     List<Card> cardTypes =cardController.getCards();
 
+    //remove all cards of the deck
     jpaDeckCardRepository.removeDeckCards(idDeck);
 
+    //register all cards of the deck
     for (JsonNode card : cards) {
       Long idxCard = cardTypes.stream().filter(card1 -> card1.getName().equals(
           card.get("name").asText())).findFirst().get().getIdCard();
@@ -123,8 +141,15 @@ public class DeckController {
     return ok(Json.newObject().put("idDeck", idDeck));
   }
 
+  /**
+   * Delete a player's deck of the database
+   * @param request idSession of client sending the request
+   * @return ok if deletion succeeded, badRequest if idSession not valid
+   * @throws ExecutionException if a problem happens accessing the database
+   * @throws InterruptedException if a problem happens accessing the database
+   */
   public Result removePlayerDeck(Http.Request request)
-      throws ExecutionException, InterruptedException, JsonProcessingException {
+      throws ExecutionException, InterruptedException {
     JsonNode jsonRequest = request.body().asJson();
     if (jsonRequest == null || !sessionController
         .verifyIdSession(jsonRequest.findPath("idSession").asLong())) {

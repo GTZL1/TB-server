@@ -21,6 +21,9 @@ import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
 
+/**
+ * Execute request to get the card types
+ */
 public class CardController {
  private final JPAHeroRepository heroRepository;
  private final JPAUnitRepository unitRepository;
@@ -42,6 +45,12 @@ public class CardController {
     this.sessionController = sessionController;
   }
 
+  /**
+   * Fetch the card types in their repositories and return them
+   * @return list of all card types
+   * @throws ExecutionException if a problem happens accessing the database
+   * @throws InterruptedException if a problem happens accessing the database
+   */
   List<Card> getCards() throws ExecutionException, InterruptedException {
     return Stream.of(heroRepository.getCards(),
         unitRepository.getCards(),
@@ -50,10 +59,17 @@ public class CardController {
         baseRepository.getCards()).flatMap(Collection::stream).collect(Collectors.toList());
   }
 
+  /**
+   * Fetch the card types, serialize them in Json and return them to a client
+   * @param request client request for cards, must include idSession
+   * @return if ok, the card types serialized in Json
+   * @throws ExecutionException if a problem happens accessing the database
+   * @throws InterruptedException if a problem happens accessing the database
+   */
   public Result getCards(Http.Request request) throws ExecutionException, InterruptedException {
     JsonNode json = request.body().asJson();
     if (json == null || !sessionController.verifyIdSession(json.findPath("idSession").asLong())) {
-      return badRequest();
+      return badRequest("Session not valid");
     }
 
     ObjectNode result=Json.newObject();

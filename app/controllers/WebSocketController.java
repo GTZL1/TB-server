@@ -14,6 +14,10 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.WebSocket;
 
+/**
+ * Execute matchmaking with websockets
+ * Display site index and rules page
+ */
 public class WebSocketController extends Controller {
 
   private final ActorSystem actorSystem;
@@ -27,14 +31,21 @@ public class WebSocketController extends Controller {
     this.materializer = materializer;
   }
 
+  /**
+   * Match together 2 websocket connections
+   * @return WebSocket created
+   */
   public WebSocket socket() {
     int key = Math.abs(new Random().nextInt());
     return WebSocket.Text.accept(
         request -> ActorFlow.actorRef(out -> {
           wss.put(key, out);
           int found = -1;
+
+          //wait for another connection
           while (found < 0) {
             for (Integer mapElement : wss.keySet()) {
+              //look for another websocket in waiting
               if(mapElement!=key) {
                 found= mapElement;
               }
@@ -42,24 +53,31 @@ public class WebSocketController extends Controller {
           }
 
           System.out.println("ws created");
+          //create connection with another ActorRef as out
           return WebSocketActor.props(wss.remove(found));
         }, actorSystem, materializer));
   }
 
   /**
-   * An action that renders an HTML page with a welcome message. The configuration in the
-   * <code>routes</code> file means that this method will be called when the application receives a
-   * <code>GET</code> request with a path of <code>/</code>.
+   * Display index page
+   * @return page rendering
    */
   public Result index() {
     return ok(views.html.home.render());
   }
 
+  /**
+   * Display rules page
+   * @return page rendering
+   */
   public Result rules() {
     return ok(views.html.rules.render());
   }
 }
 
+/**
+ * WebSocketActor used in websockets
+ */
 class WebSocketActor extends AbstractActor {
 
   public static Props props(ActorRef out) {
@@ -80,12 +98,14 @@ class WebSocketActor extends AbstractActor {
   public Receive createReceive() {
     return receiveBuilder()
         .match(String.class, message -> {System.out.println(message);
+          //retransmit message
           out.tell(message, self());})
         .build();
   }
 
   @Override
-  public void postStop() throws Exception {
+  public void postStop() {
+    //Tell other client to quit too
     out.tell("exit", self());
     System.out.println("quit");
   }
