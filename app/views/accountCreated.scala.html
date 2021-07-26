@@ -1,0 +1,15 @@
+@(username: String)
+
+@title("Hello " + username) {
+  <section id="content">
+    <div class="wrapper doc">
+      <article>
+        <h1>Account @username successfully created !</h1>
+        <p>You can now <a href="https://github.com/GTZL1/TB-client">get the client</a> and fight in the ultimate pop-culture battle !</p>
+      </article>
+      <aside>
+      @sidebar()
+      </aside>
+    </div>
+  </section>
+}

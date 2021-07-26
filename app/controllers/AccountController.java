@@ -46,7 +46,7 @@ public class AccountController extends Controller {
       newPlayer.setUsername(player.username);
       newPlayer.setPasswordHash(BCrypt.withDefaults().hashToString(8, player.password1.toCharArray()));
       playerRepository.addPlayer(newPlayer);
-      return ok();
+      return ok(views.html.accountCreated.render(newPlayer.getUsername()));
     }
   }
 }
