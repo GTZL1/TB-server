@@ -45,6 +45,7 @@ public class CardControllerTest {
     assertEquals(BAD_REQUEST, cardController.getCards(httpRequest).status());
   }
 
+  //The return type of getCards() forbids this kind of test...
   @Test
   public void getCardsWorkWithRightSession() throws ExecutionException, InterruptedException {
     /*when(sessionRepository.getSession(1L)).thenReturn(Optional.of(new Session(1L, 1L)));

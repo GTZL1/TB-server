@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS version_system
 -- Insertions
 --------------------------------
 INSERT INTO version_system(version_number, sub_version_number)
-values (1,1);
+values (1,2);
 INSERT INTO player (username, password_hash)
 values ('ANNA', 'ellipsis');
 INSERT INTO power (name)
