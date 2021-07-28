@@ -3,7 +3,6 @@ package database.session;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import database.DatabaseExecutionContext;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -38,8 +37,8 @@ public class JPASessionRepository implements SessionRepository {
   private CompletableFuture<Optional<Session>> fetchSession(Long idSession) {
     return CompletableFuture.supplyAsync(() ->
         jpaApi.withTransaction(entityManager -> {
-          List sessions= entityManager.createNativeQuery("select * from session where session.id_session=\'"+idSession+"\'", Session.class).getResultList();
-          return sessions.stream().findFirst();
+          return entityManager.createNativeQuery("select * from session where session.id_session=\'"+idSession+"\'",
+              Session.class).getResultList().stream().findFirst();
         }), executionContext);
   }
 
