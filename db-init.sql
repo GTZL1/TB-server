@@ -1,4 +1,4 @@
---command to run it: cat db-init.sql | docker exec -i <container name> psql -U tb_server -d tb_server_db
+--command to run it: cat db-init.sql | docker exec -i tb_container psql -U tb_server -d tb_server_db
 
 --------------------------------
 -- Creations

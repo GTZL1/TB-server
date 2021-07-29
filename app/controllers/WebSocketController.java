@@ -52,7 +52,6 @@ public class WebSocketController extends Controller {
             }
           }
 
-          System.out.println("ws created");
           //create connection with another ActorRef as out
           return WebSocketActor.props(wss.remove(found));
         }, actorSystem, materializer));
@@ -97,7 +96,7 @@ class WebSocketActor extends AbstractActor {
   @Override
   public Receive createReceive() {
     return receiveBuilder()
-        .match(String.class, message -> {System.out.println(message);
+        .match(String.class, message -> {
           //retransmit message
           out.tell(message, self());})
         .build();
@@ -107,6 +106,5 @@ class WebSocketActor extends AbstractActor {
   public void postStop() {
     //Tell other client to quit too
     out.tell("exit", self());
-    System.out.println("quit");
   }
 }
