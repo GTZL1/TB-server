@@ -4,7 +4,7 @@
 
 # An example controller showing a sample home page
 GET        /                    controllers.WebSocketController.index
-GET        /plop                controllers.WebSocketController.socket
+GET        /play                controllers.WebSocketController.socket
 GET        /rules               controllers.WebSocketController.rules
 GET        /newAccount          controllers.AccountController.newAccount(request: play.mvc.Http.Request)
 POST /newPlayer controllers.AccountController.saveNewPlayer(request: play.mvc.Http.Request)
